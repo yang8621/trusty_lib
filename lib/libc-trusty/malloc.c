@@ -31,7 +31,10 @@
 #define HAVE_MMAP 0
 #define MORECORE brk
 
-#include <errno.h>
+#define ENOMEM ERR_NO_MEMORY
+#define EINVAL ERR_INVALID_ARGS
+
+#include <err.h>
 #include <trusty_std.h>
 
 #include "dlmalloc.c"
