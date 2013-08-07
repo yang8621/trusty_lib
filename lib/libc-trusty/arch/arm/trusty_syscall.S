@@ -26,114 +26,17 @@
 #include <asm.h>
 #include <trusty_syscalls.h>
 
-FUNCTION(read)
-    mov     ip, r7
-    ldr     r7, =__NR_read
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
 FUNCTION(write)
-    mov     ip, r7
-    ldr     r7, =__NR_write
+    ldr     r12, =__NR_write
     swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(open)
-    mov     ip, r7
-    ldr     r7, =__NR_open
-    swi     #0
-    mov     r7, ip
     bx      lr
 
 FUNCTION(brk)
-    mov     ip, r7
-    ldr     r7, =__NR_brk
+    ldr     r12, =__NR_brk
     swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(ioctl)
-    mov     ip, r7
-    ldr     r7, =__NR_ioctl
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(set_tls)
-    mov     ip, r7
-    ldr     r7, =__NR_set_tls
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(gettimeofday)
-    mov     ip, r7
-    ldr     r7, =__NR_gettimeofday
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(munmap)
-    mov     ip, r7
-    ldr     r7, =__NR_munmap
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(mprotect)
-    mov     ip, r7
-    ldr     r7, =__NR_mprotect
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(usleep)
-    mov     ip, r7
-    ldr     r7, =__NR_usleep
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(mmap2)
-    mov     ip, r7
-    ldr     r7, =__NR_mmap2
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(fstat)
-    mov     ip, r7
-    ldr     r7, =__NR_fstat
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(madvise)
-    mov     ip, r7
-    ldr     r7, =__NR_madvise
-    swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(gettid)
-    mov     ip, r7
-    ldr     r7, =__NR_gettid
-    swi     #0
-    mov     r7, ip
     bx      lr
 
 FUNCTION(exit_group)
-    mov     ip, r7
-    ldr     r7, =__NR_exit_group
+    ldr     r12, =__NR_exit_group
     swi     #0
-    mov     r7, ip
-    bx      lr
-
-FUNCTION(clock_gettime)
-    mov     ip, r7
-    ldr     r7, =__NR_clock_gettime
-    swi     #0
-    mov     r7, ip
     bx      lr

@@ -23,40 +23,14 @@
 
 /* This file is auto-generated. !!! DO NOT EDIT !!! */
 
-#define __NR_read		0x3
-#define __NR_write		0x4
-#define __NR_open		0x5
-#define __NR_brk		0x2d
-#define __NR_ioctl		0x36
-#define __NR_set_tls		0x37
-#define __NR_gettimeofday		0x4e
-#define __NR_munmap		0x5b
-#define __NR_mprotect		0x7d
-#define __NR_usleep		0xa2
-#define __NR_mmap2		0xc0
-#define __NR_fstat		0xc5
-#define __NR_madvise		0xdc
-#define __NR_gettid		0xe0
-#define __NR_exit_group		0xf8
-#define __NR_clock_gettime		0x107
+#define __NR_write		0x1
+#define __NR_brk		0x2
+#define __NR_exit_group		0x3
 
 #ifndef ASSEMBLY
 
-long read (uint32_t fd, void* msg, uint32_t size);
 long write (uint32_t fd, void* msg, uint32_t size);
-long open (void);
 long brk (uint32_t brk);
-long ioctl (uint32_t d, uint32_t req, void *msg);
-long set_tls (uint32_t tp_value);
-long gettimeofday (void);
-long munmap (addr_t addr, uint32_t size);
-long mprotect (void);
-long usleep (struct timespec *ts);
-long mmap2 (addr_t addr, uint32_t length, uint32_t prot, uint32_t flags);
-long fstat (void);
-long madvise (void);
-long gettid (void);
 long exit_group (void);
-long clock_gettime (void);
 
 #endif
