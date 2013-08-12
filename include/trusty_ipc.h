@@ -21,18 +21,42 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef __TRUSTY_STD_H
-#define __TRUSTY_STD_H
+#ifndef __USR_TRUSTY_IPC_H
+#define __USR_TRUSTY_IPC_H
 
-#include <compiler.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <sys/types.h>
+#define MAX_MSG_HANDLES	8
 
-#include "trusty_ipc.h"
+typedef struct iovec {
+	void		*base;
+	size_t		len;
+} iovec_t;
 
-#include "trusty_syscalls.h"
+typedef struct ipc_msg {
+	int		num_iov;
+	iovec_t		*iov;
 
-__NO_RETURN void exit(int status);
+	int		num_handles;
+	int		*handles;
+} ipc_msg_t;
+
+typedef struct ipc_msg_info {
+	size_t		len;
+	uint32_t	id;
+} ipc_msg_info_t;
+
+/* bitmask */
+enum {
+	IPC_HANDLE_POLL_NONE	= 0x0,
+	IPC_HANDLE_POLL_READY	= 0x1,
+	IPC_HANDLE_POLL_ERROR	= 0x2,
+	IPC_HANDLE_POLL_HUP	= 0x4,
+	IPC_HANDLE_POLL_MSG	= 0x8,
+};
+
+typedef struct uevent {
+	int			handle;
+	uint32_t		event;
+	void			*cookie;
+} uevent_t;
 
 #endif

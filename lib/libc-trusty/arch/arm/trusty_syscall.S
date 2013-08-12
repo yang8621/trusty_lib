@@ -55,3 +55,58 @@ FUNCTION(nanosleep)
     ldr     r12, =__NR_nanosleep
     swi     #0
     bx      lr
+
+FUNCTION(port_create)
+    ldr     r12, =__NR_port_create
+    swi     #0
+    bx      lr
+
+FUNCTION(connect)
+    ldr     r12, =__NR_connect
+    swi     #0
+    bx      lr
+
+FUNCTION(accept)
+    ldr     r12, =__NR_accept
+    swi     #0
+    bx      lr
+
+FUNCTION(close)
+    ldr     r12, =__NR_close
+    swi     #0
+    bx      lr
+
+FUNCTION(set_cookie)
+    ldr     r12, =__NR_set_cookie
+    swi     #0
+    bx      lr
+
+FUNCTION(wait)
+    ldr     r12, =__NR_wait
+    swi     #0
+    bx      lr
+
+FUNCTION(wait_any)
+    ldr     r12, =__NR_wait_any
+    swi     #0
+    bx      lr
+
+FUNCTION(get_msg)
+    ldr     r12, =__NR_get_msg
+    swi     #0
+    bx      lr
+
+FUNCTION(read_msg)
+    ldr     r12, =__NR_read_msg
+    swi     #0
+    bx      lr
+
+FUNCTION(put_msg)
+    ldr     r12, =__NR_put_msg
+    swi     #0
+    bx      lr
+
+FUNCTION(send_msg)
+    ldr     r12, =__NR_send_msg
+    swi     #0
+    bx      lr
