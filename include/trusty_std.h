@@ -29,11 +29,6 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-struct timespec {
-	long tv_sec;	/* seconds */
-	long tv_nsec;	/* nanoseconds */
-};
-
 #include "trusty_syscalls.h"
 
 __NO_RETURN void exit(int status);

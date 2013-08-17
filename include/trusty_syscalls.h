@@ -26,11 +26,15 @@
 #define __NR_write		0x1
 #define __NR_brk		0x2
 #define __NR_exit_group		0x3
+#define __NR_read		0x4
+#define __NR_ioctl		0x5
 
 #ifndef ASSEMBLY
 
 long write (uint32_t fd, void* msg, uint32_t size);
 long brk (uint32_t brk);
 long exit_group (void);
+long read (uint32_t fd, void* msg, uint32_t size);
+long ioctl (uint32_t fd, uint32_t req, void* buf);
 
 #endif

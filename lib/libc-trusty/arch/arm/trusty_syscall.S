@@ -40,3 +40,13 @@ FUNCTION(exit_group)
     ldr     r12, =__NR_exit_group
     swi     #0
     bx      lr
+
+FUNCTION(read)
+    ldr     r12, =__NR_read
+    swi     #0
+    bx      lr
+
+FUNCTION(ioctl)
+    ldr     r12, =__NR_ioctl
+    swi     #0
+    bx      lr
