@@ -39,14 +39,15 @@ static int _stdio_fgetc(void *ctx)
 	return (unsigned char)0xff;
 }
 
-static int _output_func(char c, void *state)
+static int _output_func(const char *str, size_t len, void *state)
 {
-	return _stdio_fputc(state, c);
+	int fd = (int)state;
+	return write(fd, (char *)str, strnlen(str, len));
 }
 
 static int _stdio_vfprintf(void *ctx, const char *fmt, va_list ap)
 {
-	return _printf_engine(&_output_func, ctx, fmt, ap);
+	return _printf_engine(_output_func, ctx, fmt, ap);
 }
 
 #define DEFINE_STDIO_DESC(id)					\
