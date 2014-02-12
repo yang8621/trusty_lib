@@ -50,3 +50,8 @@ FUNCTION(ioctl)
     ldr     r12, =__NR_ioctl
     swi     #0
     bx      lr
+
+FUNCTION(nanosleep)
+    ldr     r12, =__NR_nanosleep
+    swi     #0
+    bx      lr
