@@ -37,6 +37,6 @@ long brk (uint32_t brk);
 long exit_group (void);
 long read (uint32_t fd, void* msg, uint32_t size);
 long ioctl (uint32_t fd, uint32_t req, void* buf);
-long nanosleep (unsigned int clock_id, unsigned int flags, uint64_t sleep_time);
+long nanosleep (uint32_t clock_id, uint32_t flags, uint64_t sleep_time);
 
 #endif
