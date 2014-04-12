@@ -3,7 +3,7 @@ LOCAL_DIR := $(GET_LOCAL_DIR)
 MODULE_SRCS += \
 	$(LOCAL_DIR)/trusty_syscall.S
 
-GEN := $(BUILDDIR)/user/crtbegin.o
+GEN := $(BUILDDIR)/crtbegin.o
 $(GEN): $(LOCAL_DIR)/crtbegin.c $(CONFIGHEADER)
 	@$(MKDIR)
 	@echo compiling $<
@@ -11,7 +11,7 @@ $(GEN): $(LOCAL_DIR)/crtbegin.c $(CONFIGHEADER)
 
 GENERATED += $(GEN)
 
-GEN := $(BUILDDIR)/user/crtend.o
+GEN := $(BUILDDIR)/crtend.o
 $(GEN): $(LOCAL_DIR)/crtend.S $(CONFIGHEADER)
 	@$(MKDIR)
 	@echo compiling $<
