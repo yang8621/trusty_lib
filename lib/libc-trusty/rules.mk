@@ -1,7 +1,8 @@
 LOCAL_DIR := $(GET_LOCAL_DIR)
 
 MODULE := $(LOCAL_DIR)
-MODULE_USER := true
+
+WITH_CUSTOM_MALLOC := true
 
 MODULE_SRCS := \
 	$(LOCAL_DIR)/atexit.c \
