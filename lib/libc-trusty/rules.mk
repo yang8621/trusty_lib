@@ -11,9 +11,8 @@ MODULE_SRCS := \
 	$(LOCAL_DIR)/stdio.c \
 	$(LOCAL_DIR)/libc_init.c
 
-include $(LOCAL_DIR)/arch/$(ARCH)/rules.mk
-
 MODULE_DEPS := \
+	$(LOCAL_DIR)/arch/$(ARCH) \
 	lib/libc
 
 include make/module.mk
