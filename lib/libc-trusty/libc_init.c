@@ -33,7 +33,7 @@
 #include "libc_init.h"
 #include "atexit.h"
 
-static void call_array(void(**list)()) {
+static void call_array(void(**list)(void)) {
   // First element is -1, list is null-terminated
   while (*++list) {
     (*list)();
@@ -80,7 +80,7 @@ void __libc_fini(void* array) {
 
   /* Now call each destructor in reverse order. */
   while (count > 0) {
-    void (*func)() = (void (*)()) fini_array[--count];
+    void (*func)(void) = (void (*)(void)) fini_array[--count];
 
     /* Sanity check, any -1 in the list is ignored */
     if ((size_t)func == minus1) {
