@@ -24,19 +24,33 @@
 #ifndef __USR_TRUSTY_IPC_H
 #define __USR_TRUSTY_IPC_H
 
-#define MAX_MSG_HANDLES	8
+#include <sys/types.h>
 
+/*
+ *  handle_t is an opaque 32 bit value that is used to reference an
+ *  object (like ipc port or channel) in kernel space
+ */
+typedef uint32_t handle_t;
+
+/*
+ *  Invalid IPC handle
+ */
+#define INVALID_IPC_HANDLE  (0xFFFFFFFFu)
+
+/*
+ *  IPC message
+ */
 typedef struct iovec {
 	void		*base;
 	size_t		len;
 } iovec_t;
 
 typedef struct ipc_msg {
-	int		num_iov;
+	uint		num_iov;
 	iovec_t		*iov;
 
-	int		num_handles;
-	int		*handles;
+	uint		num_handles;
+	handle_t	*handles;
 } ipc_msg_t;
 
 typedef struct ipc_msg_info {
@@ -44,7 +58,10 @@ typedef struct ipc_msg_info {
 	uint32_t	id;
 } ipc_msg_info_t;
 
-/* bitmask */
+/*
+ *  Combination of these values is used for event field
+ *  ot uevent_t structure.
+ */
 enum {
 	IPC_HANDLE_POLL_NONE	= 0x0,
 	IPC_HANDLE_POLL_READY	= 0x1,
@@ -53,10 +70,14 @@ enum {
 	IPC_HANDLE_POLL_MSG	= 0x8,
 };
 
+/*
+ *  Is used by wait and wait_any calls to return information
+ *  about event.
+ */
 typedef struct uevent {
-	int			handle;
-	uint32_t		event;
-	void			*cookie;
+	uint32_t	handle;  /* handle this event is related too */
+	uint32_t	event;   /* combination of IPC_HANDLE_POLL_XXX flags */
+	void		*cookie; /* cookie aasociated with handle */
 } uevent_t;
 
 #endif
