@@ -9,7 +9,8 @@ MODULE_SRCS := \
 	$(LOCAL_DIR)/exit.c \
 	$(LOCAL_DIR)/malloc.c \
 	$(LOCAL_DIR)/stdio.c \
-	$(LOCAL_DIR)/libc_init.c
+	$(LOCAL_DIR)/libc_init.c \
+	$(LOCAL_DIR)/new.cpp \
 
 MODULE_DEPS := \
 	$(LOCAL_DIR)/arch/$(ARCH) \
