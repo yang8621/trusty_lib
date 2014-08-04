@@ -48,3 +48,4 @@ extern struct atexit *__atexit;		/* points to head of LIFO stack */
 
 int	__cxa_atexit(void (*)(void *), void *);
 void	__cxa_finalize(void);
+void	__cxa_pure_virtual(void);

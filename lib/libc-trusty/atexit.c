@@ -30,7 +30,9 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <trusty_std.h>
 
 #include "atexit.h"
 
@@ -130,3 +132,13 @@ __cxa_finalize()
 	}
 }
 
+void __cxa_pure_virtual(void)
+{
+	fprintf(stderr, "Pure virtual function called.\n");
+	exit(1);
+}
+
+int __attribute__((weak))
+__aeabi_atexit(void *object, void (*destructor) (void *)) {
+	return __cxa_atexit(destructor, object);
+}
