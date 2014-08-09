@@ -12,8 +12,9 @@ MODULE_SRCS := \
 	$(LOCAL_DIR)/libc_init.c \
 	$(LOCAL_DIR)/new.cpp \
 
+include $(LOCAL_DIR)/arch/$(ARCH)/rules.mk
+
 MODULE_DEPS := \
-	$(LOCAL_DIR)/arch/$(ARCH) \
 	lib/libc
 
 include make/module.mk
