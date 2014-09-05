@@ -56,6 +56,11 @@ FUNCTION(nanosleep)
     swi     #0
     bx      lr
 
+FUNCTION(gettime)
+    ldr     r12, =__NR_gettime
+    swi     #0
+    bx      lr
+
 FUNCTION(port_create)
     ldr     r12, =__NR_port_create
     swi     #0
