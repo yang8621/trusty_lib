@@ -38,6 +38,17 @@ typedef uint32_t handle_t;
 #define INVALID_IPC_HANDLE  (0xFFFFFFFFu)
 
 /*
+ * Combination of these flags sets additional options
+ * for port_create syscall.
+ */
+enum {
+	/* allow Trusted Apps to connect to this port */
+	IPC_PORT_ALLOW_TA_CONNECT = 0x1,
+	/* allow non-secure clients to connect to this port */
+	IPC_PORT_ALLOW_NS_CONNECT = 0x2,
+};
+
+/*
  *  IPC message
  */
 typedef struct iovec {
