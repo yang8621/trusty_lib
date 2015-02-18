@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Android Open Source Project
+ * Copyright (C) 2013-2015 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,20 +18,64 @@
 #include <stdio.h>
 #include <string.h>
 #include <trusty_std.h>
+#include <err.h>
+
+#define LINE_BUFFER_SIZE 128
+
+struct file_buffer {
+	char data[LINE_BUFFER_SIZE];
+	size_t pos;
+};
+
+struct file_context {
+	int fd;
+	struct file_buffer *buffer;
+};
+
+static int buffered_put(struct file_buffer *buffer, int fd, char c)
+{
+	int result = 0;
+
+	buffer->data[buffer->pos++] = c;
+	if (buffer->pos == sizeof(buffer->data) || c == '\n') {
+		result = write(fd, buffer->data, buffer->pos);
+		buffer->pos = 0;
+	}
+	return result;
+}
+
+static int buffered_write(struct file_context *ctx, const char *str, size_t sz)
+{
+	unsigned i;
+
+	if (!ctx->buffer) {
+		return ERR_INVALID_ARGS;
+	}
+
+	for (i = 0; i < sz; i++) {
+		int result = buffered_put(ctx->buffer, ctx->fd, str[i]);
+		if (result < 0) {
+			return result;
+		}
+	}
+
+	return sz;
+}
 
 static int _stdio_fputc(void *ctx, int c)
 {
-	int fd = (int)ctx;
+	struct file_context *fctx = (struct file_context*)ctx;
 	char _c = (char)c;
 
-	write(fd, &_c, 1);
+	buffered_put(fctx->buffer, fctx->fd, c);
 	return INT_MAX;
 }
 
 static int _stdio_fputs(void *ctx, const char *s)
 {
-	int fd = (int)ctx;
-	return write(fd, (char *)s, strlen(s));
+	struct file_context *fctx = (struct file_context*)ctx;
+
+	return buffered_write(fctx, s, strlen(s));
 }
 
 static int _stdio_fgetc(void *ctx)
@@ -41,8 +85,9 @@ static int _stdio_fgetc(void *ctx)
 
 static int _output_func(const char *str, size_t len, void *state)
 {
-	int fd = (int)state;
-	return write(fd, (char *)str, strnlen(str, len));
+	struct file_context *ctx = (struct file_context*)state;
+
+	return buffered_write(ctx, str, strnlen(str, len));
 }
 
 static int _stdio_vfprintf(void *ctx, const char *fmt, va_list ap)
@@ -50,9 +95,17 @@ static int _stdio_vfprintf(void *ctx, const char *fmt, va_list ap)
 	return _printf_engine(_output_func, ctx, fmt, ap);
 }
 
-#define DEFINE_STDIO_DESC(id)					\
-	[(id)]	= {						\
-		.ctx		= (void *)(id),			\
+struct file_buffer stdout_buffer = {.pos = 0};
+struct file_buffer stderr_buffer = {.pos = 0};
+struct file_context fctx[3] = {
+	{.fd = 0, .buffer = NULL},
+	{.fd = 1, .buffer = &stdout_buffer },
+	{.fd = 2, .buffer = &stderr_buffer }
+};
+
+#define DEFINE_STDIO_DESC(fctx)					\
+	{							\
+		.ctx		= (void *)(fctx),		\
 		.fputc		= _stdio_fputc,			\
 		.fputs		= _stdio_fputs,			\
 		.fgetc		= _stdio_fgetc,			\
@@ -60,9 +113,9 @@ static int _stdio_vfprintf(void *ctx, const char *fmt, va_list ap)
 	}
 
 FILE __stdio_FILEs[3] = {
-	DEFINE_STDIO_DESC(0), /* stdin */
-	DEFINE_STDIO_DESC(1), /* stdout */
-	DEFINE_STDIO_DESC(2), /* stderr */
+	DEFINE_STDIO_DESC(&fctx[0]), /* stdin */
+	DEFINE_STDIO_DESC(&fctx[1]), /* stdout */
+	DEFINE_STDIO_DESC(&fctx[2]), /* stderr */
 };
 #undef DEFINE_STDIO_DESC
 
