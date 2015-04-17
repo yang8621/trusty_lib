@@ -24,7 +24,6 @@ GLOBAL_INCLUDES += $(LOCAL_DIR)/include/
 IPC := ote
 
 MODULE_DEPS := \
-	lib/libc \
 	lib/libc-trusty \
 	openssl
 
