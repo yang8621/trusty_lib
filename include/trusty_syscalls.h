@@ -52,7 +52,7 @@ long ioctl (uint32_t fd, uint32_t req, void* buf);
 long nanosleep (uint32_t clock_id, uint32_t flags, uint64_t sleep_time);
 long gettime (uint32_t clock_id, uint32_t flags, int64_t *time);
 long port_create (const char *path, uint num_recv_bufs, size_t recv_buf_size, uint32_t flags);
-long connect (const char *path, unsigned long timeout_msecs);
+long connect (const char *path, uint flags);
 long accept (uint32_t handle_id, uuid_t *peer_uuid);
 long close (uint32_t handle_id);
 long set_cookie (uint32_t handle, void *cookie);

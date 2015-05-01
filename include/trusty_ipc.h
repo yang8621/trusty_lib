@@ -49,6 +49,14 @@ enum {
 };
 
 /*
+ * Options for connect syscall
+ */
+enum {
+	IPC_CONNECT_WAIT_FOR_PORT = 0x1,
+	IPC_CONNECT_ASYNC = 0x2,
+};
+
+/*
  *  IPC message
  */
 typedef struct iovec {
