@@ -10,7 +10,6 @@ MODULE_SRCS := \
 	$(LOCAL_DIR)/malloc.c \
 	$(LOCAL_DIR)/stdio.c \
 	$(LOCAL_DIR)/libc_init.c \
-	$(LOCAL_DIR)/new.cpp \
 
 include $(LOCAL_DIR)/arch/$(ARCH)/rules.mk
 
