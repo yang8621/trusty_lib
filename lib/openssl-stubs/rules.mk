@@ -4,7 +4,6 @@ MODULE := $(LOCAL_DIR)
 MODULE_USER := true
 
 MODULE_SRCS := \
-	$(LOCAL_DIR)/abort.c \
 	$(LOCAL_DIR)/errno.c \
 	$(LOCAL_DIR)/rand.c \
 	$(LOCAL_DIR)/sscanf.c
