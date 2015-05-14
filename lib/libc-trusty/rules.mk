@@ -5,6 +5,7 @@ MODULE := $(LOCAL_DIR)
 WITH_CUSTOM_MALLOC := true
 
 MODULE_SRCS := \
+	$(LOCAL_DIR)/abort.c \
 	$(LOCAL_DIR)/atexit.c \
 	$(LOCAL_DIR)/exit.c \
 	$(LOCAL_DIR)/malloc.c \
