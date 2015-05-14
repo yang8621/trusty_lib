@@ -25,7 +25,30 @@
  * SUCH DAMAGE.
  */
 
+#include <err.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <sys/types.h>
+
+#include <lib/rng/trusty_rng.h>
+#include <openssl/rand.h>
+
+#if defined(OPENSSL_IS_BORINGSSL)
+
+/* CRYPTO_sysrand is called by BoringSSL to obtain entropy from the OS. By
+ * default, BoringSSL's RNG calls this function without buffering. */
+void CRYPTO_sysrand(uint8_t *out, size_t requested)
+{
+	if (trusty_rng_secure_rand(out, requested) != NO_ERROR) {
+		abort();
+	}
+}
+
+#else
+
 int RAND_poll(void)
 {
 	return 0;
 }
+
+#endif  /* OPENSSL_IS_BORINGSSL */

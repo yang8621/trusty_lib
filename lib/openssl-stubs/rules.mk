@@ -6,11 +6,12 @@ MODULE_USER := true
 MODULE_SRCS := \
 	$(LOCAL_DIR)/abort.c \
 	$(LOCAL_DIR)/errno.c \
-	$(LOCAL_DIR)/rand_poll.c \
+	$(LOCAL_DIR)/rand.c \
 	$(LOCAL_DIR)/sscanf.c
 
 MODULE_DEPS := \
-	lib/libc-trusty
+	lib/libc-trusty \
+	lib/rng
 
 GLOBAL_INCLUDES += $(LOCAL_DIR)/include
 
