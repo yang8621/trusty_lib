@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 The Android Open Source Project
+ * Copyright (C) 2014-2015 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,12 @@
 #include <stdbool.h>
 #include <lib/rng/trusty_rng.h>
 
-#if WITH_LIB_OTE
-#include <lib/rng/ote/ote_rng.h>
-#endif
+/*
+ *  This is generic part of trusty app rng service.
+ *  It is expected that actual implementation of
+ *  int trusty_rng_hw_rand(uint8_t *data, size_t len)
+ *  is provided by hardware specific backend library.
+ */
 
 #define AES256_KEY_SIZE		32
 
@@ -128,10 +131,3 @@ done:
 	return err;
 }
 
-int trusty_rng_hw_rand(uint8_t *data, size_t len)
-{
-#if WITH_LIB_OTE
-	return ote_hw_rand(data, len);
-#endif
-	return ERR_NOT_SUPPORTED;
-}
