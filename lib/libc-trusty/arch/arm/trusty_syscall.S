@@ -68,6 +68,18 @@ FUNCTION(gettime)
     swi     #0
     bx      lr
 
+.section .text.mmap
+FUNCTION(mmap)
+    ldr     r12, =__NR_mmap
+    swi     #0
+    bx      lr
+
+.section .text.munmap
+FUNCTION(munmap)
+    ldr     r12, =__NR_munmap
+    swi     #0
+    bx      lr
+
 .section .text.port_create
 FUNCTION(port_create)
     ldr     r12, =__NR_port_create
