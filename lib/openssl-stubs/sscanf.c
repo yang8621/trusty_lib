@@ -27,5 +27,10 @@
 
 int sscanf(const char *str, const char *fmt, ...)
 {
-	return 0;
+    return 0;
+}
+
+char *getenv(const char *name)
+{
+    return (void *)0;
 }
