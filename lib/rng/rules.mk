@@ -22,6 +22,7 @@ MODULE_SRCS := $(LOCAL_DIR)/trusty_rng.c
 GLOBAL_INCLUDES += $(LOCAL_DIR)/include/
 
 MODULE_DEPS := \
+	interface/hwrng \
 	lib/libc-trusty \
 	openssl
 

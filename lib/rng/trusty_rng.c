@@ -20,17 +20,27 @@
  * from a single-threaded Trusty application.
  */
 #include <openssl/aes.h>
+
 #include <err.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
 #include <lib/rng/trusty_rng.h>
+#include <interface/hwrng/hwrng.h>
+#include <trusty_std.h>
 
 /*
- *  This is generic part of trusty app rng service.
- *  It is expected that actual implementation of
- *  int trusty_rng_hw_rand(uint8_t *data, size_t len)
- *  is provided by hardware specific backend library.
+ *	This is the generic part of the trusty app rng service.
+ *	A server implementation for retrieving hardware backed
+ *	random numbers, used by trusty_rng_hw_rand,
+ *	is required to be provided by a hardware
+ *	specific backend at tipc port HWRNG_PORT.
+ *
+ *	Clients of this library are encouraged to use the
+ *	trusty_rng_secure_rand rather than the trusty_rng_hw_rand
+ *	routine, as the latter incurs an IPC penalty with connection
+ *	overhead.
  */
 
 #define AES256_KEY_SIZE		32
@@ -129,5 +139,83 @@ int trusty_rng_add_entropy(const uint8_t *data, size_t len)
 		entropy_pool[i] ^= data[i];
 done:
 	return err;
+}
+
+int trusty_rng_hw_rand(uint8_t *data, size_t len)
+{
+	struct hwrng_req req_hdr = {
+		.len = len
+	};
+
+	iovec_t tx_iov = {
+		.base = &req_hdr,
+		.len = sizeof(req_hdr),
+	};
+
+	ipc_msg_t tx_msg = {
+		.iov = &tx_iov,
+		.num_iov = 1,
+	};
+
+	iovec_t rx_iov = {
+		.base = data,
+		.len = len,
+	};
+	ipc_msg_t rx_msg = {
+		.iov = &rx_iov,
+		.num_iov = 1,
+	};
+
+	long rc = connect(HWRNG_PORT, IPC_CONNECT_WAIT_FOR_PORT);
+	if (rc < 0) {
+		return rc;
+	}
+
+	handle_t chan = (handle_t) rc;
+
+	rc = send_msg(chan, &tx_msg);
+	if (rc < 0) {
+		goto err;
+	}
+
+	if (rc != sizeof(req_hdr)) {
+		rc = ERR_IO;
+		goto err;
+	}
+
+	while (rx_msg.iov[0].len > 0) {
+		uevent_t uevt;
+		rc = wait(chan, &uevt, -1);
+		if (rc != NO_ERROR) {
+			goto err;
+		}
+
+		ipc_msg_info_t inf;
+		rc = get_msg(chan, &inf);
+		if (rc != NO_ERROR) {
+			goto err;
+		}
+
+		if (inf.len > rx_msg.iov[0].len) {
+			// received too much data
+			rc = ERR_BAD_LEN;
+			goto err;
+		}
+
+		rc = read_msg(chan, inf.id, 0, &rx_msg);
+		if (rc < 0) {
+			goto err;
+		}
+
+		size_t rx_size = (size_t) rc;
+		rx_msg.iov[0].base += rx_size;
+		rx_msg.iov[0].len -= rx_size;
+		put_msg(chan, inf.id);
+	}
+
+	rc = NO_ERROR;
+err:
+	close(chan);
+	return rc;
 }
 
