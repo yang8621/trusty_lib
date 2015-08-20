@@ -141,7 +141,7 @@ done:
 	return err;
 }
 
-int trusty_rng_hw_rand(uint8_t *data, size_t len)
+__WEAK int trusty_rng_hw_rand(uint8_t *data, size_t len)
 {
 	struct hwrng_req req_hdr = {
 		.len = len
