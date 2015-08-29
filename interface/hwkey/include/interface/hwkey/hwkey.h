@@ -28,11 +28,11 @@
  * enum hwkey_cmd - command identifiers for hwkey functions
  */
 enum hwkey_cmd {
-	HWKEY_REQ_GET_KEYSLOT  = 0,
-	HWKEY_RESP_GET_KEYSLOT = 1,
+	HWKEY_RESP_BIT     = 1,
+	HWKEY_REQ_SHIFT    = 1,
 
-	HWKEY_REQ_DERIVE       = 2,
-	HWKEY_RESP_DERIVE      = 3,
+	HWKEY_GET_KEYSLOT  = (0 << HWKEY_REQ_SHIFT),
+	HWKEY_DERIVE       = (1 << HWKEY_REQ_SHIFT),
 };
 
 /**
