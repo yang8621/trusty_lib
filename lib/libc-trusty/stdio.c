@@ -65,9 +65,8 @@ static int buffered_write(struct file_context *ctx, const char *str, size_t sz)
 static int _stdio_fputc(void *ctx, int c)
 {
 	struct file_context *fctx = (struct file_context*)ctx;
-	char _c = (char)c;
 
-	buffered_put(fctx->buffer, fctx->fd, c);
+	buffered_put(fctx->buffer, fctx->fd, (char)c);
 	return INT_MAX;
 }
 
