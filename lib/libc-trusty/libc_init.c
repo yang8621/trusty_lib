@@ -30,6 +30,7 @@
 #include <stddef.h>
 #include <trusty_std.h>
 
+#include "libc_fatal.h"
 #include "libc_init.h"
 #include "atexit.h"
 
@@ -44,11 +45,15 @@ __NO_RETURN void __libc_init(void *args,
 			int (*slingshot)(void*),
 			structors_array_t const * const structors)
 {
+	int ret;
 	call_array(structors->preinit_array);
 	call_array(structors->init_array);
 
-	if (structors->fini_array != NULL)
-		__cxa_atexit(__libc_fini, structors->fini_array);
+	if (structors->fini_array != NULL) {
+		ret = __cxa_atexit(__libc_fini, structors->fini_array);
+		if (ret)
+			__libc_fatal("__cxa_atexit failed\n");
+	}
 
 	exit(slingshot(args));
 }
