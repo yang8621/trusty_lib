@@ -55,7 +55,7 @@ __cxa_atexit(void (*func)(void *), void *arg)
 {
 	struct atexit *p = __atexit;
 	struct atexit_fn *fnp;
-	int pgsize = PAGE_SIZE;
+	int size = 64;
 	int ret = -1;
 
 	if (p != NULL) {
@@ -63,7 +63,7 @@ __cxa_atexit(void (*func)(void *), void *arg)
 			p = NULL;
 	}
 	if (p == NULL) {
-		p = malloc(pgsize);
+		p = malloc(size);
 		if (!p)
 			goto done;
 		if (__atexit == NULL) {
@@ -71,7 +71,7 @@ __cxa_atexit(void (*func)(void *), void *arg)
 			p->ind = 1;
 		} else
 			p->ind = 0;
-		p->max = (pgsize - ((char *)&p->fns[0] - (char *)p)) /
+		p->max = (size - ((char *)&p->fns[0] - (char *)p)) /
 		    sizeof(p->fns[0]);
 		p->next = __atexit;
 		__atexit = p;
