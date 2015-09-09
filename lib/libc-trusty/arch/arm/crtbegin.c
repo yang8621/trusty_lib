@@ -45,7 +45,7 @@ void _start(void *args) {
   structors_array_t array;
   array.preinit_array = &__PREINIT_ARRAY__;
   array.init_array = &__INIT_ARRAY__;
-  array.fini_array = &__FINI_ARRAY__;
+  array.fini_array = (&__FINI_ARRAY__)[0] ? &__FINI_ARRAY__ : 0;
 
   __libc_init(args, &main, &array);
 }
