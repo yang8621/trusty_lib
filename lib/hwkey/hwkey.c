@@ -86,32 +86,42 @@ static long send_req(hwkey_session_t session, struct hwkey_msg *msg, uint8_t *re
 
 	rc = send_msg(session, &tx_msg);
 	if (rc < 0) {
-		return rc;
+		goto err_send_fail;
 	}
 
-	if(((unsigned long) rc) != sizeof(*msg) + req_buf_len) {
-		return ERR_IO;
+	if(((size_t) rc) != sizeof(*msg) + req_buf_len) {
+		rc = ERR_IO;
+		goto err_send_fail;
 	}
 
 	uevent_t uevt;
 	rc = wait(session, &uevt, -1);
 	if (rc != NO_ERROR) {
-		return rc;
+		goto err_send_fail;
 	}
 
 	ipc_msg_info_t inf;
 	rc = get_msg(session, &inf);
 	if (rc != NO_ERROR) {
 		TLOGE("%s: failed to get_msg (%d)\n", __func__, rc);
-		return rc;
+		goto err_send_fail;
 	}
 
 	if (inf.len > sizeof(*msg) + *rsp_buf_len) {
-		TLOGE("%s: insufficient output buffer size (%d > %d) ", __func__,
+		TLOGE("%s: insufficient output buffer size (%d > %d)\n", __func__,
 				inf.len - sizeof(*msg), *rsp_buf_len);
-		put_msg(session, inf.id);
-		return ERR_TOO_BIG;
+		rc = ERR_TOO_BIG;
+		goto err_get_fail;
 	}
+
+	if (inf.len < sizeof(*msg)) {
+		TLOGE("%s: short buffer (%d)\n", __func__,
+				inf.len);
+		rc = ERR_NOT_VALID;
+		goto err_get_fail;
+	}
+
+	uint32_t cmd_sent = msg->cmd;
 
 	iovec_t rx_iov[2] = {
 		{
@@ -130,20 +140,32 @@ static long send_req(hwkey_session_t session, struct hwkey_msg *msg, uint8_t *re
 
 	rc = read_msg(session, inf.id, 0, &rx_msg);
 	put_msg(session, inf.id);
-	if (rc >= 0) {
-		unsigned long read_len = (unsigned long) rc;
-		if (read_len == inf.len && read_len >= sizeof(*msg)) {
-			*rsp_buf_len = read_len - sizeof(*msg);
-			return hwkey_err_to_tipc_err(msg->status);
-		} else {
-			// data read in does not match message length
-			TLOGE("invalid response length: %d\n", rc);
-			return ERR_IO;
-		}
+	if (rc < 0) {
+		goto err_read_fail;
 	}
 
+	size_t read_len = (size_t) rc;
+	if (read_len != inf.len) {
+		// data read in does not match message length
+		TLOGE("invalid response length: %d\n", rc);
+		rc = ERR_IO;
+		goto err_read_fail;
+	}
+
+	if (msg->cmd != (cmd_sent | HWKEY_RESP_BIT)) {
+		TLOGE("invalid response id (%d) for cmd (%d)\n", msg->cmd, cmd_sent);
+		return ERR_NOT_VALID;
+	}
+
+	*rsp_buf_len = read_len - sizeof(*msg);
+	return hwkey_err_to_tipc_err(msg->status);
+
+err_get_fail:
+	put_msg(session, inf.id);
+err_send_fail:
+err_read_fail:
 	TLOGE("%s: failed read_msg (%d)", __func__, rc);
-	return ERR_GENERIC;
+	return rc;
 }
 
 long hwkey_open(void)
@@ -159,7 +181,7 @@ long hwkey_get_keyslot_data(hwkey_session_t session, const char *slot_id,
 	}
 
 	struct hwkey_msg msg = {
-		.cmd = HWKEY_REQ_GET_KEYSLOT,
+		.cmd = HWKEY_GET_KEYSLOT,
 	};
 
 	// TODO: remove const cast when const APIs are available
@@ -175,7 +197,7 @@ long hwkey_derive(hwkey_session_t session, uint32_t *kdf_version, const uint8_t 
 	}
 
 	struct hwkey_msg msg = {
-		.cmd = HWKEY_REQ_DERIVE,
+		.cmd = HWKEY_DERIVE,
 		.arg1 = *kdf_version,
 	};
 
