@@ -48,6 +48,8 @@
 
 #ifndef ASSEMBLY
 
+__BEGIN_CDECLS
+
 long write (uint32_t fd, void* msg, uint32_t size);
 long brk (uint32_t brk);
 long exit_group (void);
@@ -70,5 +72,7 @@ long get_msg (uint32_t handle, ipc_msg_info_t *msg_info);
 long read_msg (uint32_t handle, uint32_t msg_id, uint32_t offset, ipc_msg_t *msg);
 long put_msg (uint32_t handle, uint32_t msg_id);
 long send_msg (uint32_t handle, ipc_msg_t *msg);
+
+__END_CDECLS
 
 #endif
