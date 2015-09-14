@@ -15,11 +15,15 @@
  */
 
 /* Trusty Random number generator */
-#ifndef __RNG_H
-#define __RNG_H
+
+#pragma once
+
+#include <compiler.h>
+
+__BEGIN_CDECLS
 
 int trusty_rng_secure_rand(uint8_t *data, size_t len);
 int trusty_rng_add_entropy(const uint8_t *data, size_t len);
 int trusty_rng_hw_rand(uint8_t *data, size_t len);
 
-#endif /* __RNG_H */
+__END_CDECLS
