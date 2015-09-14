@@ -16,10 +16,13 @@
 
 #pragma once
 
+#include <compiler.h>
 #include <sys/types.h>
 
 #include <trusty_ipc.h>
 #include <interface/hwkey/hwkey.h>
+
+__BEGIN_CDECLS
 
 typedef handle_t hwkey_session_t;
 
@@ -75,4 +78,6 @@ long hwkey_derive(hwkey_session_t session, uint32_t *kdf_version, const uint8_t 
  * hwkey_close() - Closes the session.
  */
 void hwkey_close(hwkey_session_t session);
+
+__END_CDECLS
 
