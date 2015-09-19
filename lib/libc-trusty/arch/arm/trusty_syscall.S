@@ -26,91 +26,109 @@
 #include <asm.h>
 #include <trusty_syscalls.h>
 
+.section .text.write
 FUNCTION(write)
     ldr     r12, =__NR_write
     swi     #0
     bx      lr
 
+.section .text.brk
 FUNCTION(brk)
     ldr     r12, =__NR_brk
     swi     #0
     bx      lr
 
+.section .text.exit_group
 FUNCTION(exit_group)
     ldr     r12, =__NR_exit_group
     swi     #0
     bx      lr
 
+.section .text.read
 FUNCTION(read)
     ldr     r12, =__NR_read
     swi     #0
     bx      lr
 
+.section .text.ioctl
 FUNCTION(ioctl)
     ldr     r12, =__NR_ioctl
     swi     #0
     bx      lr
 
+.section .text.nanosleep
 FUNCTION(nanosleep)
     ldr     r12, =__NR_nanosleep
     swi     #0
     bx      lr
 
+.section .text.gettime
 FUNCTION(gettime)
     ldr     r12, =__NR_gettime
     swi     #0
     bx      lr
 
+.section .text.port_create
 FUNCTION(port_create)
     ldr     r12, =__NR_port_create
     swi     #0
     bx      lr
 
+.section .text.connect
 FUNCTION(connect)
     ldr     r12, =__NR_connect
     swi     #0
     bx      lr
 
+.section .text.accept
 FUNCTION(accept)
     ldr     r12, =__NR_accept
     swi     #0
     bx      lr
 
+.section .text.close
 FUNCTION(close)
     ldr     r12, =__NR_close
     swi     #0
     bx      lr
 
+.section .text.set_cookie
 FUNCTION(set_cookie)
     ldr     r12, =__NR_set_cookie
     swi     #0
     bx      lr
 
+.section .text.wait
 FUNCTION(wait)
     ldr     r12, =__NR_wait
     swi     #0
     bx      lr
 
+.section .text.wait_any
 FUNCTION(wait_any)
     ldr     r12, =__NR_wait_any
     swi     #0
     bx      lr
 
+.section .text.get_msg
 FUNCTION(get_msg)
     ldr     r12, =__NR_get_msg
     swi     #0
     bx      lr
 
+.section .text.read_msg
 FUNCTION(read_msg)
     ldr     r12, =__NR_read_msg
     swi     #0
     bx      lr
 
+.section .text.put_msg
 FUNCTION(put_msg)
     ldr     r12, =__NR_put_msg
     swi     #0
     bx      lr
 
+.section .text.send_msg
 FUNCTION(send_msg)
     ldr     r12, =__NR_send_msg
     swi     #0
