@@ -8,7 +8,6 @@ MODULE_SRCS := \
 	$(LOCAL_DIR)/sscanf.c
 
 MODULE_DEPS := \
-	lib/libc-trusty \
 	lib/rng
 
 GLOBAL_INCLUDES += $(LOCAL_DIR)/include

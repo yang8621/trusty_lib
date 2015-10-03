@@ -23,7 +23,6 @@ GLOBAL_INCLUDES += $(LOCAL_DIR)/include/
 
 MODULE_DEPS := \
 	interface/hwrng \
-	lib/libc-trusty \
 	openssl
 
 include make/module.mk
