@@ -32,6 +32,8 @@
 #define __NR_gettime		0x7
 #define __NR_mmap		0x8
 #define __NR_munmap		0x9
+#define __NR_prepare_dma		0xa
+#define __NR_finish_dma		0xb
 #define __NR_port_create		0x10
 #define __NR_connect		0x11
 #define __NR_accept		0x12
@@ -55,6 +57,8 @@ long nanosleep (uint32_t clock_id, uint32_t flags, uint64_t sleep_time);
 long gettime (uint32_t clock_id, uint32_t flags, int64_t *time);
 long mmap (user_addr_t uaddr, uint32_t size, uint32_t flags, uint32_t handle);
 long munmap (user_addr_t uaddr, uint32_t size);
+long prepare_dma (user_addr_t uaddr, uint32_t size, uint32_t flags, user_addr_t pmem);
+long finish_dma (user_addr_t uaddr, uint32_t size, uint32_t flags);
 long port_create (const char *path, uint num_recv_bufs, size_t recv_buf_size, uint32_t flags);
 long connect (const char *path, uint flags);
 long accept (uint32_t handle_id, uuid_t *peer_uuid);

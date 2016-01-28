@@ -80,6 +80,18 @@ FUNCTION(munmap)
     swi     #0
     bx      lr
 
+.section .text.prepare_dma
+FUNCTION(prepare_dma)
+    ldr     r12, =__NR_prepare_dma
+    swi     #0
+    bx      lr
+
+.section .text.finish_dma
+FUNCTION(finish_dma)
+    ldr     r12, =__NR_finish_dma
+    swi     #0
+    bx      lr
+
 .section .text.port_create
 FUNCTION(port_create)
     ldr     r12, =__NR_port_create
