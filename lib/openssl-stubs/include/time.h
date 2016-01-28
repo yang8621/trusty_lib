@@ -28,6 +28,8 @@
 #ifndef OPENSSL_STUB_TIME_H
 #define OPENSSL_STUB_TIME_H
 
+#include <string.h>
+
 typedef int time_t;
 
 struct tm {
@@ -52,6 +54,15 @@ static inline time_t time(time_t *t)
 
 static inline struct tm *localtime(const time_t *t)
 {
+	return 0;
+}
+
+static inline struct tm *OPENSSL_gmtime(const time_t *timer, struct tm* result) {
+	memset(result, 0, sizeof(*result));
+	return result;
+}
+
+static inline int OPENSSL_gmtime_adj(struct tm *tm, int offset_day, long offset_sec) {
 	return 0;
 }
 
