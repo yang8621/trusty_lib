@@ -17,6 +17,7 @@
 #pragma once
 
 #define HWKEY_PORT "com.android.trusty.hwkey"
+#define HWKEY_MAX_BUFFER_LENGTH 1024
 
 #define HWKEY_GET_KEYSLOT_PROTOCOL_VERSION 0
 #define HWKEY_DERIVE_PROTOCOL_VERSION      0
