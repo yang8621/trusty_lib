@@ -17,7 +17,7 @@
 #pragma once
 
 #define HWRNG_PORT "com.android.trusty.hwrng"
-
+#define HWRNG_MAX_BUFFER_LENGTH 1024
 /*
  * The hwrng protocol works as follows:
  * 1) Client opens channel to the server, then sends one or more
