@@ -103,20 +103,19 @@ static long send_req(hwkey_session_t session, struct hwkey_msg *msg, uint8_t *re
 	ipc_msg_info_t inf;
 	rc = get_msg(session, &inf);
 	if (rc != NO_ERROR) {
-		TLOGE("%s: failed to get_msg (%d)\n", __func__, rc);
+		TLOGE("%s: failed to get_msg (%ld)\n", __func__, rc);
 		goto err_send_fail;
 	}
 
 	if (inf.len > sizeof(*msg) + *rsp_buf_len) {
-		TLOGE("%s: insufficient output buffer size (%d > %d)\n", __func__,
-				inf.len - sizeof(*msg), *rsp_buf_len);
+		TLOGE("%s: insufficient output buffer size (%zu > %zu)\n",
+		      __func__, inf.len - sizeof(*msg), *rsp_buf_len);
 		rc = ERR_TOO_BIG;
 		goto err_get_fail;
 	}
 
 	if (inf.len < sizeof(*msg)) {
-		TLOGE("%s: short buffer (%d)\n", __func__,
-				inf.len);
+		TLOGE("%s: short buffer (%zu)\n", __func__, inf.len);
 		rc = ERR_NOT_VALID;
 		goto err_get_fail;
 	}
@@ -147,13 +146,15 @@ static long send_req(hwkey_session_t session, struct hwkey_msg *msg, uint8_t *re
 	size_t read_len = (size_t) rc;
 	if (read_len != inf.len) {
 		// data read in does not match message length
-		TLOGE("invalid response length: %d\n", rc);
+		TLOGE("%s: invalid read length (%zu != %zu)\n",
+		       __func__, read_len, inf.len);
 		rc = ERR_IO;
 		goto err_read_fail;
 	}
 
 	if (msg->cmd != (cmd_sent | HWKEY_RESP_BIT)) {
-		TLOGE("invalid response id (%d) for cmd (%d)\n", msg->cmd, cmd_sent);
+		TLOGE("%s: invalid response id (0x%x) for cmd (0x%x)\n",
+		      __func__, msg->cmd, cmd_sent);
 		return ERR_NOT_VALID;
 	}
 
@@ -164,7 +165,7 @@ err_get_fail:
 	put_msg(session, inf.id);
 err_send_fail:
 err_read_fail:
-	TLOGE("%s: failed read_msg (%d)", __func__, rc);
+	TLOGE("%s: failed read_msg (%ld)", __func__, rc);
 	return rc;
 }
 
