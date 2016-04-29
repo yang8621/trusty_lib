@@ -40,12 +40,12 @@
 .endm
 
 .macro EPILOG
-1:	 pop %ebx
-     pop %edi
-     pop %esi
-     pop %ebp
-	 popf
-     pop %ebp
+1:  pop %ebx
+    pop %edi
+    pop %esi
+    pop %ebp
+    popf
+    pop %ebp
 .endm
 
 FUNCTION(write)
@@ -99,6 +99,38 @@ FUNCTION(nanosleep)
 FUNCTION(gettime)
     PROLOG
     mov $__NR_gettime, %eax
+    MOV_PARAMS
+    sysenter
+    EPILOG
+    ret
+
+FUNCTION(mmap)
+    PROLOG
+    mov $__NR_mmap, %eax
+    MOV_PARAMS
+    sysenter
+    EPILOG
+    ret
+
+FUNCTION(munmap)
+    PROLOG
+    mov $__NR_munmap, %eax
+    MOV_PARAMS
+    sysenter
+    EPILOG
+    ret
+
+FUNCTION(prepare_dma)
+    PROLOG
+    mov $__NR_prepare_dma, %eax
+    MOV_PARAMS
+    sysenter
+    EPILOG
+    ret
+
+FUNCTION(finish_dma)
+    PROLOG
+    mov $__NR_finish_dma, %eax
     MOV_PARAMS
     sysenter
     EPILOG
