@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Google Inc. All rights reserved
+ * Copyright (c) 2013-2017 Google Inc. All rights reserved
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files
@@ -50,24 +50,24 @@
 
 __BEGIN_CDECLS
 
-long write (uint32_t fd, void* msg, uint32_t size);
+long write (uint32_t fd, void *msg, uint32_t size);
 long brk (uint32_t brk);
 long exit_group (void);
-long read (uint32_t fd, void* msg, uint32_t size);
-long ioctl (uint32_t fd, uint32_t req, void* buf);
+long read (uint32_t fd, void *msg, uint32_t size);
+long ioctl (uint32_t fd, uint32_t req, void *buf);
 long nanosleep (uint32_t clock_id, uint32_t flags, uint64_t sleep_time);
 long gettime (uint32_t clock_id, uint32_t flags, int64_t *time);
-long mmap (void* uaddr, uint32_t size, uint32_t flags, uint32_t handle);
-long munmap (void* uaddr, uint32_t size);
-long prepare_dma (void* uaddr, uint32_t size, uint32_t flags, void* pmem);
-long finish_dma (void* uaddr, uint32_t size, uint32_t flags);
-long port_create (const char *path, uint num_recv_bufs, size_t recv_buf_size, uint32_t flags);
-long connect (const char *path, uint flags);
+long mmap (void *uaddr, uint32_t size, uint32_t flags, uint32_t handle);
+long munmap (void *uaddr, uint32_t size);
+long prepare_dma (void *uaddr, uint32_t size, uint32_t flags, struct dma_pmem *pmem);
+long finish_dma (void *uaddr, uint32_t size, uint32_t flags);
+long port_create (const char *path, uint32_t num_recv_bufs, uint32_t recv_buf_size, uint32_t flags);
+long connect (const char *path, uint32_t flags);
 long accept (uint32_t handle_id, uuid_t *peer_uuid);
 long close (uint32_t handle_id);
 long set_cookie (uint32_t handle, void *cookie);
-long wait (uint32_t handle_id, uevent_t *event, unsigned long timeout_msecs);
-long wait_any (uevent_t *event, unsigned long timeout_msecs);
+long wait (uint32_t handle_id, uevent_t *event, uint32_t timeout_msecs);
+long wait_any (uevent_t *event, uint32_t timeout_msecs);
 long get_msg (uint32_t handle, ipc_msg_info_t *msg_info);
 long read_msg (uint32_t handle, uint32_t msg_id, uint32_t offset, ipc_msg_t *msg);
 long put_msg (uint32_t handle, uint32_t msg_id);
