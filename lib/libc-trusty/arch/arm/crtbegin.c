@@ -38,7 +38,7 @@ __attribute__ ((section (".fini_array")))
 void (*__FINI_ARRAY__)(void) = (void (*)(void)) -1;
 
 __attribute__ ((section (".bss")))
-void *__dso_handle = (void *) 0;
+__WEAK void *__dso_handle = (void *) 0;
 
 /* Arguments are supplied in memory pointed by r0 */
 void _start(void *args) {

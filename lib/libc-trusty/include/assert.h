@@ -55,6 +55,13 @@
 # define	assert(e)	((e) ? (void)0 : __assert2(__FILE__, __LINE__, __func__, #e))
 #endif
 
+#if LK_DEBUGLEVEL > 1
+#define DEBUG_ASSERT(x) assert(x)
+#else
+#define DEBUG_ASSERT(x) \
+    do { } while(0)
+#endif
+
 __BEGIN_CDECLS
 void __assert2(const char *, int, const char *, const char *) __NO_RETURN;
 __END_CDECLS

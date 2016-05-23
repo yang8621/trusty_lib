@@ -28,6 +28,7 @@ struct file_buffer {
 };
 
 struct file_context {
+	io_handle_t io_handle;
 	int fd;
 	struct file_buffer *buffer;
 };
@@ -44,9 +45,11 @@ static int buffered_put(struct file_buffer *buffer, int fd, char c)
 	return result;
 }
 
-static int buffered_write(struct file_context *ctx, const char *str, size_t sz)
+static ssize_t buffered_write(struct io_handle *handle, const char *str, size_t sz)
 {
 	unsigned i;
+	struct file_context *ctx = containerof(handle, struct file_context,
+	                                       io_handle);
 
 	if (!ctx->buffer) {
 		return ERR_INVALID_ARGS;
@@ -62,53 +65,33 @@ static int buffered_write(struct file_context *ctx, const char *str, size_t sz)
 	return sz;
 }
 
-static int _stdio_fputc(void *ctx, int c)
-{
-	struct file_context *fctx = (struct file_context*)ctx;
-
-	buffered_put(fctx->buffer, fctx->fd, (char)c);
-	return INT_MAX;
-}
-
-static int _stdio_fputs(void *ctx, const char *s)
-{
-	struct file_context *fctx = (struct file_context*)ctx;
-
-	return buffered_write(fctx, s, strlen(s));
-}
-
-static int _stdio_fgetc(void *ctx)
-{
-	return (unsigned char)0xff;
-}
-
-static int _output_func(const char *str, size_t len, void *state)
-{
-	struct file_context *ctx = (struct file_context*)state;
-
-	return buffered_write(ctx, str, strnlen(str, len));
-}
-
-static int _stdio_vfprintf(void *ctx, const char *fmt, va_list ap)
-{
-	return _printf_engine(_output_func, ctx, fmt, ap);
-}
+static io_handle_hooks_t __stdio_io_handle_hooks = {
+	.write = buffered_write,
+};
 
 struct file_buffer stdout_buffer = {.pos = 0};
 struct file_buffer stderr_buffer = {.pos = 0};
 struct file_context fctx[3] = {
-	{.fd = 0, .buffer = NULL},
-	{.fd = 1, .buffer = &stdout_buffer },
-	{.fd = 2, .buffer = &stderr_buffer }
+	{
+		.io_handle = IO_HANDLE_INITIAL_VALUE(&__stdio_io_handle_hooks),
+		.fd = 0,
+		.buffer = NULL,
+	},
+	{
+		.io_handle = IO_HANDLE_INITIAL_VALUE(&__stdio_io_handle_hooks),
+		.fd = 1,
+		.buffer = &stdout_buffer,
+	},
+	{
+		.io_handle = IO_HANDLE_INITIAL_VALUE(&__stdio_io_handle_hooks),
+		.fd = 2,
+		.buffer = &stderr_buffer,
+	}
 };
 
 #define DEFINE_STDIO_DESC(fctx)					\
 	{							\
-		.ctx		= (void *)(fctx),		\
-		.fputc		= _stdio_fputc,			\
-		.fputs		= _stdio_fputs,			\
-		.fgetc		= _stdio_fgetc,			\
-		.vfprintf	= _stdio_vfprintf,		\
+		.io		= &((fctx)->io_handle),		\
 	}
 
 FILE __stdio_FILEs[3] = {
@@ -117,5 +100,3 @@ FILE __stdio_FILEs[3] = {
 	DEFINE_STDIO_DESC(&fctx[2]), /* stderr */
 };
 #undef DEFINE_STDIO_DESC
-
-
