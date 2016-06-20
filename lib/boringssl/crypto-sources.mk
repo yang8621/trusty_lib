@@ -1,5 +1,6 @@
 LOCAL_ADDITIONAL_DEPENDENCIES += $(BORINGSSL_ROOT)/sources.mk
 include $(BORINGSSL_ROOT)/sources.mk
+include $(LOCAL_DIR)/override.mk
 
 LOCAL_CFLAGS += -I$(BORINGSSL_ROOT)/src/include -I$(BORINGSSL_ROOT)/src/crypto -Wno-unused-parameter -DANDROID
 LOCAL_ASFLAGS += -I$(BORINGSSL_ROOT)/src/include -I$(BORINGSSL_ROOT)/src/crypto -Wno-unused-parameter
@@ -14,3 +15,5 @@ LOCAL_SRC_FILES_arm := $(linux_arm_sources)
 LOCAL_SRC_FILES_arm64 := $(linux_aarch64_sources)
 endif
 LOCAL_SRC_FILES += $(crypto_sources)
+
+LOCAL_SRC_FILES_OVERRIDE += $(override_sources)

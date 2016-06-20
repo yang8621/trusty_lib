@@ -53,7 +53,7 @@ LOCAL_SRC_FILES := $(filter-out src/crypto/directory_posix.c,$(LOCAL_SRC_FILES))
 LOCAL_SRC_FILES := $(filter-out src/crypto/rand/urandom.c,$(LOCAL_SRC_FILES))
 LOCAL_SRC_FILES := $(filter-out src/crypto/time_support.c,$(LOCAL_SRC_FILES))
 LOCAL_SRC_FILES := $(filter-out src/crypto/x509/by_dir.c,$(LOCAL_SRC_FILES))
-LOCAL_SRC_FILES := $(filter-out src/crypto/x509v3/v3_utl.c,$(LOCAL_SRC_FILES))
+LOCAL_SRC_FILES := $(filter-out src/crypto/x509v3/v3_pci.c,$(LOCAL_SRC_FILES))
 
 # BoringSSL detects Trusty based on this define and does things like switch to
 # no-op threading functions.
@@ -61,6 +61,8 @@ MODULE_CFLAGS += -DTRUSTY
 
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES))
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES_$(ARCH)))
+MODULE_SRCS += $(addprefix $(LOCAL_DIR)/,$(LOCAL_SRC_FILES_OVERRIDE))
+
 LOCAL_C_INCLUDES := src/crypto src/include
 
 GLOBAL_INCLUDES += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_C_INCLUDES))
