@@ -122,6 +122,18 @@ FUNCTION(set_cookie)
     swi     #0
     bx      lr
 
+.section .text.handle_set_create
+FUNCTION(handle_set_create)
+    ldr     r12, =__NR_handle_set_create
+    swi     #0
+    bx      lr
+
+.section .text.handle_set_ctrl
+FUNCTION(handle_set_ctrl)
+    ldr     r12, =__NR_handle_set_ctrl
+    swi     #0
+    bx      lr
+
 .section .text.wait
 FUNCTION(wait)
     ldr     r12, =__NR_wait

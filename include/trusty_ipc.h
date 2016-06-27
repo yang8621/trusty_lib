@@ -91,6 +91,15 @@ enum {
 };
 
 /*
+ *  Values for cmd parameter of handle_set_ctrl call
+ */
+enum {
+	HSET_ADD	= 0x0, /* adds new handle to handle set */
+	HSET_DEL	= 0x1, /* deletes handle from handle set */
+	HSET_MOD	= 0x2, /* modifies handle attributes in handle set */
+};
+
+/*
  *  Is used by wait and wait_any calls to return information
  *  about event.
  */

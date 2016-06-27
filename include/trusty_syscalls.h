@@ -39,6 +39,8 @@
 #define __NR_accept		0x12
 #define __NR_close		0x13
 #define __NR_set_cookie		0x14
+#define __NR_handle_set_create		0x15
+#define __NR_handle_set_ctrl		0x16
 #define __NR_wait		0x18
 #define __NR_wait_any		0x19
 #define __NR_get_msg		0x20
@@ -66,6 +68,8 @@ long connect (const char *path, uint32_t flags);
 long accept (uint32_t handle_id, uuid_t *peer_uuid);
 long close (uint32_t handle_id);
 long set_cookie (uint32_t handle, void *cookie);
+long handle_set_create (void);
+long handle_set_ctrl (uint32_t handle, uint32_t cmd, struct uevent *evt);
 long wait (uint32_t handle_id, uevent_t *event, uint32_t timeout_msecs);
 long wait_any (uevent_t *event, uint32_t timeout_msecs);
 long get_msg (uint32_t handle, ipc_msg_info_t *msg_info);
