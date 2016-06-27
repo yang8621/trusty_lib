@@ -31,6 +31,7 @@
 
 #include "trusty_ipc.h"
 #include "trusty_uuid.h"
+#include "trusty_device_info.h"
 #include "trusty_syscalls.h"
 
 __NO_RETURN void exit(int status);

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -131,6 +131,14 @@ FUNCTION(prepare_dma)
 FUNCTION(finish_dma)
     PROLOG
     mov $__NR_finish_dma, %eax
+    MOV_PARAMS
+    sysenter
+    EPILOG
+    ret
+
+FUNCTION(get_device_info)
+    PROLOG
+    mov $__NR_get_device_info, %eax
     MOV_PARAMS
     sysenter
     EPILOG
