@@ -75,6 +75,7 @@ typedef struct ipc_msg {
 typedef struct ipc_msg_info {
 	size_t		len;
 	uint32_t	id;
+	uint32_t	num_handles;
 } ipc_msg_info_t;
 
 /*
