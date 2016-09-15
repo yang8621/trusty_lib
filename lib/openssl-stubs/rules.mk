@@ -4,6 +4,7 @@ MODULE := $(LOCAL_DIR)
 MODULE_USER := true
 
 MODULE_SRCS := \
+	$(LOCAL_DIR)/bio.c \
 	$(LOCAL_DIR)/rand.c \
 	$(LOCAL_DIR)/sscanf.c
 
