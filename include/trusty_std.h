@@ -27,6 +27,7 @@
 #include <compiler.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <sys/types.h>
 
 #include "trusty_ipc.h"

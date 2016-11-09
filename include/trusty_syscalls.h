@@ -62,7 +62,7 @@ long mmap (void* uaddr, uint32_t size, uint32_t flags, uint32_t handle);
 long munmap (void* uaddr, uint32_t size);
 long prepare_dma (void* uaddr, uint32_t size, uint32_t flags, void* pmem);
 long finish_dma (void* uaddr, uint32_t size, uint32_t flags);
-long get_device_info (trusty_device_info_t *info);
+long get_device_info (trusty_device_info_t *info, bool need_seed);
 long port_create (const char *path, uint num_recv_bufs, size_t recv_buf_size, uint32_t flags);
 long connect (const char *path, uint flags);
 long accept (uint32_t handle_id, uuid_t *peer_uuid);
