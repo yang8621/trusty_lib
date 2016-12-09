@@ -68,16 +68,32 @@ typedef struct _rot_data_t {
 
 }__attribute__((packed, aligned(8))) rot_data_t;
 
+typedef union hfs1 {
+        struct {
+                uint32_t working_state: 4;   /* Current working state */
+                uint32_t manuf_mode: 1;      /* Manufacturing mode */
+                uint32_t part_tbl_status: 1; /* Indicates status of flash partition table */
+                uint32_t reserved: 25;       /* Reserved for further use */
+                uint32_t d0i3_support: 1;    /* Indicates D0i3 support */
+        } field;
+        uint32_t data;
+} hfs1_t;
 
 typedef struct trusty_device_info{
     /* the size of the structure, used to sync up in different modules(tos loader, TA, LK kernel) */
-    uint32_t   size;
+    uint32_t        size;
 
     /* used as the HUK derived from CSE by kernelflinger */
     uint8_t         seed[BUP_MKHI_BOOTLOADER_SEED_LEN];
 
     /* root of trusty field used to binding the hw-backed key */
     rot_data_t      rot;
+
+    /* used for getting device end of manufacturing or other states */
+    hfs1_t          state;
+
+    /* Reserved for use */
+    uint8_t         reserve[32];
 } trusty_device_info_t;
 
 #endif
