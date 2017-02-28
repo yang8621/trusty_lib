@@ -36,10 +36,10 @@ typedef struct {
   void (**fini_array)(void);
 } structors_array_t;
 
-extern int main(void*);
+extern int main(int argc, char** argv, char** env);
 
 __NO_RETURN void __libc_init(void* args,
-                            int (*slingshot)(void*),
+                            int (*slingshot)(int, char**, char**),
                             structors_array_t const * const structors);
 void __libc_fini(void* finit_array);
 
