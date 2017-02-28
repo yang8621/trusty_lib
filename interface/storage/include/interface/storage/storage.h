@@ -190,10 +190,16 @@ struct storage_file_read_req {
 /**
  * struct storage_file_read_resp - response format for STORAGE_FILE_READ
  * @data: beginning of data retrieved from file
+ *
+ * This struct definition is only safe to use in C since empty structs have
+ * different sizes in C(0) and C++(1) which makes them unsafe to be used
+ * across languages
  */
+#ifndef __cplusplus
 struct storage_file_read_resp {
 	uint8_t data[0];
 };
+#endif
 
 /**
  * struct storage_file_write_req - request format for STORAGE_FILE_WRITE
@@ -257,10 +263,16 @@ struct storage_rpmb_send_req {
 /**
  * struct storage_rpmb_send_resp: response type for STORAGE_RPMB_SEND
  * @data: the data frames frames retrieved from the MMC.
+ *
+ * This struct definition is only safe to use in C since empty structs have
+ * different sizes in C(0) and C++(1) which makes them unsafe to be used
+ * across languages
  */
+#ifndef __cplusplus
 struct storage_rpmb_send_resp {
 	uint8_t data[0];
 };
+#endif
 
 /**
  * struct storage_msg - generic req/resp format for all storage commands
