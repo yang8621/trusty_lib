@@ -100,4 +100,6 @@ typedef struct uevent {
 	void		*cookie; /* cookie aasociated with handle */
 } uevent_t;
 
+#define UEVENT_INITIAL_VALUE(event) {0, 0, 0}
+
 #endif
