@@ -15,7 +15,6 @@
 
 # This file is not used in the Android build process! It's used only by Trusty.
 
-
 LOCAL_DIR := $(GET_LOCAL_DIR)
 
 MODULE := $(LOCAL_DIR)
@@ -57,7 +56,9 @@ LOCAL_SRC_FILES := $(filter-out src/crypto/x509v3/v3_pci.c,$(LOCAL_SRC_FILES))
 
 # BoringSSL detects Trusty based on this define and does things like switch to
 # no-op threading functions.
-MODULE_CFLAGS += -DTRUSTY
+MODULE_CFLAGS += -DTRUSTY -DANDROID
+MODULE_CFLAGS += -fvisibility=hidden -DBORINGSSL_SHARED_LIBRARY -DBORINGSSL_IMPLEMENTATION -Wno-unused-parameter \
+	-m64 -march=slm -mfpmath=sse  -DUSE_SSSE3 -mssse3 -msse4 -msse4.1 -msse4.2 -maes
 
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES))
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES_$(ARCH)))
