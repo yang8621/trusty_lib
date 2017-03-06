@@ -19,6 +19,10 @@ MODULE_SRCS := \
 include $(LOCAL_DIR)/arch/$(ARCH)/rules.mk
 
 MODULE_DEPS := \
-	lib/libc
+	lib/libc \
+
+ifeq ($(call TOBOOL,$(CLANGBUILD)), true)
+MODULE_DEPS += lib/rt
+endif
 
 include make/module.mk
