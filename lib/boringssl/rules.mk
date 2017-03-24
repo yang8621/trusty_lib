@@ -43,6 +43,7 @@ include $(LOCAL_DIR)/crypto-sources.mk
 # such a path is created, it'll be a link-time error and something more complex
 # may need to be considered.
 LOCAL_SRC_FILES := $(filter-out android_compat_hacks.c,$(LOCAL_SRC_FILES))
+LOCAL_SRC_FILES := $(filter-out src/crypto/asn1/time_support.c,$(LOCAL_SRC_FILES))
 LOCAL_SRC_FILES := $(filter-out src/crypto/bio/connect.c,$(LOCAL_SRC_FILES))
 LOCAL_SRC_FILES := $(filter-out src/crypto/bio/fd.c,$(LOCAL_SRC_FILES))
 LOCAL_SRC_FILES := $(filter-out src/crypto/bio/file.c,$(LOCAL_SRC_FILES))
@@ -59,6 +60,10 @@ LOCAL_SRC_FILES := $(filter-out src/crypto/x509v3/v3_pci.c,$(LOCAL_SRC_FILES))
 MODULE_CFLAGS += -DTRUSTY -DANDROID
 MODULE_CFLAGS += -fvisibility=hidden -DBORINGSSL_SHARED_LIBRARY -DBORINGSSL_IMPLEMENTATION -Wno-unused-parameter \
 	-m64 -march=slm -mfpmath=sse  -DUSE_SSSE3 -mssse3 -msse4 -msse4.1 -msse4.2 -maes
+
+# BoringSSL expects an STL to be available when building for C++11 to provide
+# scopers. Suppress those APIs.
+GLOBAL_CPPFLAGS += -DBORINGSSL_NO_CXX
 
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES))
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES_$(ARCH)))
