@@ -21,8 +21,13 @@ MODULE := $(LOCAL_DIR)
 
 BORINGSSL_ROOT := $(LOCAL_DIR)/../../../../external/boringssl
 
+ifeq ($(ARCH), x86)
+TARGET_ARCH := $(SUBARCH)
+TARGET_2ND_ARCH := $(SUBARCH)
+else
 TARGET_ARCH := $(ARCH)
 TARGET_2ND_ARCH := $(ARCH)
+endif
 
 # Reset local variables
 LOCAL_CFLAGS :=
@@ -66,7 +71,11 @@ MODULE_CFLAGS += -fvisibility=hidden -DBORINGSSL_SHARED_LIBRARY -DBORINGSSL_IMPL
 GLOBAL_CPPFLAGS += -DBORINGSSL_NO_CXX
 
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES))
+ifeq ($(ARCH), x86)
+MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES_$(SUBARCH)))
+else
 MODULE_SRCS += $(addprefix $(BORINGSSL_ROOT)/,$(LOCAL_SRC_FILES_$(ARCH)))
+endif
 MODULE_SRCS += $(addprefix $(LOCAL_DIR)/,$(LOCAL_SRC_FILES_OVERRIDE))
 
 LOCAL_C_INCLUDES := src/crypto src/include
