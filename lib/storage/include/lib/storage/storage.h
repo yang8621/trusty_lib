@@ -30,6 +30,8 @@ typedef handle_t storage_session_t;
 typedef uint64_t file_handle_t;
 typedef uint64_t storage_off_t;
 
+struct storage_open_dir_state;
+
 #define STORAGE_INVALID_SESSION ((storage_session_t)INVALID_IPC_HANDLE)
 
 /**
@@ -121,6 +123,42 @@ int storage_move_file(storage_session_t session, file_handle_t handle,
  */
 int storage_delete_file(storage_session_t session, const char *name,
                         uint32_t opflags);
+
+/**
+ * storage_open_dir - Open directory.
+ * @session: the storage_session_t returned from a call to storage_open_session
+ * @path:    Must be "" or %NULL.
+ * @state:   Pointer to return state object in.
+ *
+ * Return: 0 on success, or an error code < 0 on failure.
+ */
+
+int storage_open_dir(storage_session_t session, const char *path,
+                     struct storage_open_dir_state **state);
+
+/**
+ * storage_close_dir() - Close open directory iterator.
+ * @session: the storage_session_t returned from a call to storage_open_session
+ * @state:   directory state object retrieved from storage_open_dir
+ */
+void storage_close_dir(storage_session_t session,
+                       struct storage_open_dir_state *state);
+
+/**
+ * storage_read_dir() - Read a file name from directory.
+ * @session:    the storage_session_t returned from a call to storage_open_session
+ * @state:      directory state object retrieved from storage_open_dir
+ * @flags:      storage_file_list_flag for committed, added, removed or end.
+ * @name:       buffer to write file name info.
+ * @name_size:  size of @name buffer.
+ *
+ * Return: the number of bytes read on success, negative error code on failure
+ *
+ */
+int storage_read_dir(storage_session_t session,
+                     struct storage_open_dir_state *state,
+                     uint8_t *flags,
+                     char *name, size_t name_size);
 
 /**
  * storage_read() - Reads a file at a given offset.
