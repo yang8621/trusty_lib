@@ -41,6 +41,13 @@ enum {
 	TRUSTY_APP_CONFIG_KEY_MIN_STACK_SIZE	= 1,
 	TRUSTY_APP_CONFIG_KEY_MIN_HEAP_SIZE	= 2,
 	TRUSTY_APP_CONFIG_KEY_MAP_MEM		= 3,
+	TRUSTY_APP_CONFIG_KEY_MGMT_FLAGS	= 4,
+};
+
+enum trusty_app_mgmt_flags {
+	TRUSTY_APP_MGMT_FLAGS_NONE			= 0x0,
+	/* Restart the application on exit */
+	TRUSTY_APP_MGMT_FLAGS_RESTART_ON_EXIT		= 0x1,
 };
 
 #define TRUSTY_APP_CONFIG_MIN_STACK_SIZE(sz) \
@@ -51,6 +58,10 @@ enum {
 
 #define TRUSTY_APP_CONFIG_MAP_MEM(id,off,sz) \
 	TRUSTY_APP_CONFIG_KEY_MAP_MEM, id, off, sz
+
+#define TRUSTY_APP_CONFIG_MGMT_FLAGS(mgmt_flags) \
+	TRUSTY_APP_CONFIG_KEY_MGMT_FLAGS, mgmt_flags
+
 
 /* manifest section attributes */
 #define TRUSTY_APP_MANIFEST_ATTRS \
