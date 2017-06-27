@@ -21,10 +21,10 @@
 
 /* HACK: needed temporarily until the syscalls file gets the
  * __NO_RETURN annotation */
-__NO_RETURN long exit_group (void);
+__NO_RETURN long exit_etc (int32_t status, uint32_t flags);
 
 __NO_RETURN void exit(int status)
 {
 	__cxa_finalize();
-	exit_group();
+	exit_etc(status, 0);
 }

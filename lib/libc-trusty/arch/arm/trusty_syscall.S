@@ -38,9 +38,9 @@ FUNCTION(brk)
     swi     #0
     bx      lr
 
-.section .text.exit_group
-FUNCTION(exit_group)
-    ldr     r12, =__NR_exit_group
+.section .text.exit_etc
+FUNCTION(exit_etc)
+    ldr     r12, =__NR_exit_etc
     swi     #0
     bx      lr
 
