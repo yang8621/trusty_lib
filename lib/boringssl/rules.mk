@@ -19,6 +19,10 @@ LOCAL_DIR := $(GET_LOCAL_DIR)
 
 MODULE := $(LOCAL_DIR)
 
+ifeq (true, $(call TOBOOL,$(ENABLE_STATIC_LIB)))
+MODULE_STATIC_LIB := true
+endif
+
 BORINGSSL_ROOT := $(LOCAL_DIR)/../../../../external/boringssl
 
 ifeq ($(ARCH), x86)
