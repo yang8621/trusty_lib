@@ -22,12 +22,8 @@ distribution.
 */
 #include "tinyxml2.h"
 
-#include <cstdio>
-#include <cstdlib>
 #include <new>
-#include <cstddef>
 
-#include <fcntl.h>
 using namespace tinyxml2;
 
 static const char LINE_FEED                = (char)0x0a;            // all line endings are normalized to LF
@@ -1563,8 +1559,19 @@ int XMLDocument::LoadFile( FILE* fp )
 }
 
 
+int XMLDocument::LoadXmlData( char *xmldata )
+{
+    DeleteChildren();
+    InitDocument();
+
+    ParseDeep( xmldata, 0 );
+    return errorID;
+}
+
+
 int XMLDocument::SaveFile( const char* filename )
 {
+    #if 0
 #if defined(_MSC_VER)
 #pragma warning ( push )
 #pragma warning ( disable : 4996 )        // Fail to see a compelling reason why this should be deprecated.
@@ -1582,6 +1589,9 @@ int XMLDocument::SaveFile( const char* filename )
     SaveFile(fp);
     fclose( fp );
     return errorID;
+    #endif
+
+    return 0;
 }
 
 
@@ -2019,3 +2029,4 @@ bool XMLPrinter::Visit( const XMLUnknown& unknown )
     PushUnknown( unknown.Value() );
     return true;
 }
+

@@ -20,16 +20,13 @@ must not be misrepresented as being the original software.
 3. This notice may not be removed or altered from any source
 distribution.
 */
-
 #ifndef TINYXML2_INCLUDED
 #define TINYXML2_INCLUDED
 
-#include <cctype>
-#include <climits>
-#include <cstdio>
-#include <cstring>
-//#include <cstdarg>
-#include <stdarg.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+
 /*
    TODO: intern strings instead of allocation.
 */
@@ -1070,6 +1067,8 @@ public:
     */
     int LoadFile( FILE* );
 
+    int LoadXmlData( char *xmldata );
+
     /**
         Save the XML file to disk.
         Returns XML_NO_ERROR (0) on success, or
@@ -1478,3 +1477,4 @@ private:
 
 
 #endif // TINYXML2_INCLUDED
+
