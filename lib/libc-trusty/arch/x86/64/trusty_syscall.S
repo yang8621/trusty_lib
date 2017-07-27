@@ -33,7 +33,13 @@
 .endm
 
 .macro EPILOG
-1:  popq %r15
+/*REVERTME: WA for wrong SS value after SYSEXIT in simics*/
+1:  pushq %rax
+    xorq %rax, %rax
+    mov  $0x5b, %ax
+    mov  %ax, %ss
+    popq %rax
+    popq %r15
     popq %rbx
     popq %rbp
     popfq
