@@ -27,7 +27,9 @@
 ** trusty/lib/include/trusty_device_info.h
 **/
 
+#define BOOTLOADER_SEED_MAX_ENTRIES     4
 #define BUP_MKHI_BOOTLOADER_SEED_LEN    32
+#define MMC_PROD_NAME_WITH_PSN_LEN      15
 
 /*
 *Structure for RoT info (fields defined by Google Keymaster2)
@@ -68,6 +70,13 @@ typedef struct _rot_data_t {
 
 }__attribute__((packed, aligned(8))) rot_data_t;
 
+/* Structure of seed info */
+typedef struct _seed_info {
+    uint8_t svn;
+    uint8_t padding[3];
+    uint8_t seed[BUP_MKHI_BOOTLOADER_SEED_LEN];
+}__attribute__((packed)) seed_info_t;
+
 typedef union hfs1 {
         struct {
                 uint32_t working_state: 4;   /* Current working state */
@@ -84,7 +93,7 @@ typedef struct trusty_device_info{
     uint32_t        size;
 
     /* used as the HUK derived from CSE by kernelflinger */
-    uint8_t         seed[BUP_MKHI_BOOTLOADER_SEED_LEN];
+    seed_info_t seed_list[BOOTLOADER_SEED_MAX_ENTRIES];
 
     /* root of trusty field used to binding the hw-backed key */
     rot_data_t      rot;
@@ -92,9 +101,9 @@ typedef struct trusty_device_info{
     /* used for getting device end of manufacturing or other states */
     hfs1_t          state;
 
-    /* Reserved for use */
-    uint8_t         reserve[32];
-} trusty_device_info_t;
+    /* Concatenation of mmc product name with a string representation of PSN */
+    char serial[MMC_PROD_NAME_WITH_PSN_LEN];
+}__attribute__((packed, aligned(8))) trusty_device_info_t;
 
 #endif
 
