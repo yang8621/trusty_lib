@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
+# define ASM_PTR_SIZE(x) .quad x
+# define ASM_ALIGN_TO_PTR_SIZE .balign 8
+
+
     .section .preinit_array, "aw"
-    .long 0
+    ASM_ALIGN_TO_PTR_SIZE
+    ASM_PTR_SIZE(0)
 
     .section .init_array, "aw"
-    .long 0
+    ASM_ALIGN_TO_PTR_SIZE
+    ASM_PTR_SIZE(0)
 
     .section .fini_array, "aw"
-    .long 0
-
+    ASM_ALIGN_TO_PTR_SIZE
+    ASM_PTR_SIZE(0)
