@@ -46,7 +46,6 @@
 #define __NR_read_msg		0x21
 #define __NR_put_msg		0x22
 #define __NR_send_msg		0x23
-#define __NR_get_paddr		0x24
 
 #ifndef ASSEMBLY
 
@@ -63,7 +62,7 @@ long mmap (void* uaddr, uint32_t size, uint32_t flags, uint32_t handle);
 long munmap (void* uaddr, uint32_t size);
 long prepare_dma (void* uaddr, uint32_t size, uint32_t flags, void* pmem);
 long finish_dma (void* uaddr, uint32_t size, uint32_t flags);
-long get_device_info (trusty_device_info_t *info, bool need_seed);
+long get_device_info (trusty_device_info_t *info, uint32_t flags);
 long port_create (const char *path, uint num_recv_bufs, size_t recv_buf_size, uint32_t flags);
 long connect (const char *path, uint flags);
 long accept (uint32_t handle_id, uuid_t *peer_uuid);
@@ -75,7 +74,6 @@ long get_msg (uint32_t handle, ipc_msg_info_t *msg_info);
 long read_msg (uint32_t handle, uint32_t msg_id, uint32_t offset, ipc_msg_t *msg);
 long put_msg (uint32_t handle, uint32_t msg_id);
 long send_msg (uint32_t handle, ipc_msg_t *msg);
-long get_paddr (uint64_t *paddr, void *ptr);
 
 __END_CDECLS
 

@@ -242,11 +242,3 @@ FUNCTION(send_msg)
     sysenter
     EPILOG
     ret
-
-FUNCTION(get_paddr)
-    PROLOG
-    movq $__NR_get_paddr, %rax
-    MOV_PARAMS
-    sysenter
-    EPILOG
-    ret
