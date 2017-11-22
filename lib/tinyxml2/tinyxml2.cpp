@@ -96,6 +96,9 @@ void StrPair::SetStr( const char* str, int flags )
     Reset();
     size_t len = strlen( str );
     start = new char[ len+1 ];
+    if ( !start ) {
+        return;
+    }
     memcpy( start, str, len+1 );
     end = start + len;
     this->flags = flags | NEEDS_DELETE;
@@ -1621,6 +1624,10 @@ int XMLDocument::Parse( const char* p )
 
     size_t len = strlen( p );
     charBuffer = new char[ len+1 ];
+    if ( !charBuffer ) {
+        SetError( XML_ERROR_PARSING, 0, 0 );
+        return errorID;
+    }
     memcpy( charBuffer, p, len+1 );
 
 
@@ -2029,4 +2036,3 @@ bool XMLPrinter::Visit( const XMLUnknown& unknown )
     PushUnknown( unknown.Value() );
     return true;
 }
-
