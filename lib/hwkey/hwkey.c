@@ -165,7 +165,7 @@ err_get_fail:
 	put_msg(session, inf.id);
 err_send_fail:
 err_read_fail:
-	TLOGE("%s: failed read_msg (%ld)", __func__, rc);
+	TLOGE("%s: failed read_msg (%ld)\n", __func__, rc);
 	return rc;
 }
 
