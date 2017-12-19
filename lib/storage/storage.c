@@ -111,7 +111,7 @@ static ssize_t check_response(struct storage_msg *msg, ssize_t res)
 }
 
 static ssize_t get_response(storage_session_t session,
-                            struct iovec *rx_iovs, uint rx_iovcnt)
+                            struct iovec *rx_iovs, uint32_t rx_iovcnt)
 
 {
     uevent_t ev;
@@ -180,8 +180,8 @@ static int wait_to_send(handle_t session, struct ipc_msg *msg)
 }
 
 ssize_t send_reqv(storage_session_t session,
-                         struct iovec *tx_iovs, uint tx_iovcnt,
-                         struct iovec *rx_iovs, uint rx_iovcnt)
+                         struct iovec *tx_iovs, uint32_t tx_iovcnt,
+                         struct iovec *rx_iovs, uint32_t rx_iovcnt)
 {
     ssize_t rc;
 
@@ -344,7 +344,7 @@ static int storage_read_dir_send_message(storage_session_t session,
         {&msg, sizeof(msg)},
         {&req, sizeof(req)},
     };
-    uint tx_count = 2;
+    uint32_t tx_count = 2;
     struct iovec rx[2] = {
         {&msg, sizeof(msg)},
         {state->buf, sizeof(state->buf)}
