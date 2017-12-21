@@ -215,6 +215,88 @@ long hwkey_derive(hwkey_session_t session, uint32_t *kdf_version, const uint8_t 
 	return rc;
 }
 
+long hwkey_generate_crypto_context(hwkey_session_t session, uint8_t *data, uint32_t data_size)
+{
+	if (data_size == 0 || data == NULL) {
+		TLOGE("invalid args!\n");
+		return ERR_NOT_VALID;
+	}
+
+	struct hwkey_msg msg = {
+		.cmd = HWKEY_GENERATE_CRYPTO_CTX,
+		.arg1 = data_size,
+	};
+
+	uint32_t stored_data_size = data_size;
+	long rc = send_req(session, &msg, data, data_size, data, &data_size);
+	if (rc != NO_ERROR) {
+		TLOGE("send_req HWKEY_GENERATE_CRYPTO_CTX failed!\n");
+		return rc;
+	}
+
+	if (stored_data_size != data_size) {
+		TLOGE("data_size error!\n");
+		return ERR_BAD_LEN;
+	}
+
+	return rc;
+}
+
+long hwkey_exchange_crypto_context(hwkey_session_t session, const uint8_t *src,
+                  uint8_t *dst, uint32_t dst_size)
+{
+	if (dst_size == 0 || dst == NULL || src == NULL) {
+		TLOGE("invalid args!\n");
+		return ERR_NOT_VALID;
+	}
+
+	struct hwkey_msg msg = {
+		.cmd = HWKEY_EXCHANGE_CRYPTO_CTX,
+		.arg1 = dst_size,
+	};
+
+	uint32_t stored_dst_size = dst_size;
+	long rc = send_req(session, &msg, (uint8_t *) src, dst_size, dst, &dst_size);
+	if (rc != NO_ERROR) {
+		TLOGE("send_req HWKEY_EXCHANGE_CRYPTO_CTX failed!\n");
+		return rc;
+	}
+
+	if (stored_dst_size != dst_size) {
+		TLOGE("data_size error!\n");
+		return ERR_BAD_LEN;
+	}
+
+	return rc;
+}
+
+long hwkey_get_ssek(hwkey_session_t session, uint8_t *ssek, uint32_t ssek_size)
+{
+	if (ssek_size == 0 || ssek == NULL) {
+		TLOGE("invalid args!\n");
+		return ERR_NOT_VALID;
+	}
+
+	struct hwkey_msg msg = {
+		.cmd = HWKEY_GET_SSEK,
+		.arg1 = ssek_size,
+	};
+
+	uint32_t stored_ssek_size = ssek_size;
+	long rc = send_req(session, &msg, ssek, ssek_size, ssek, &ssek_size);
+	if (rc != NO_ERROR) {
+		TLOGE("send_req HWKEY_GET_SSEK failed!\n");
+		return rc;
+	}
+
+	if (stored_ssek_size != ssek_size) {
+		TLOGE("data_size error!\n");
+		return ERR_BAD_LEN;
+	}
+
+	return rc;
+}
+
 void hwkey_close(hwkey_session_t session)
 {
 	close(session);

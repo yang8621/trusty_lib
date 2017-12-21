@@ -74,6 +74,13 @@ long hwkey_get_keyslot_data(hwkey_session_t session, const char *slot_id, uint8_
 long hwkey_derive(hwkey_session_t session, uint32_t *kdf_version, const uint8_t *src,
                   uint8_t *dest, uint32_t buf_size);
 
+long hwkey_generate_crypto_context(hwkey_session_t session, uint8_t *data, uint32_t data_size);
+
+long hwkey_exchange_crypto_context(hwkey_session_t session, const uint8_t *src,
+                  uint8_t *dst, uint32_t dst_size);
+
+long hwkey_get_ssek(hwkey_session_t session, uint8_t *ssek, uint32_t ssek_len);
+
 /**
  * hwkey_close() - Closes the session.
  */

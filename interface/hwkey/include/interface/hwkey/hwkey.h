@@ -23,6 +23,9 @@
 #define HWKEY_DERIVE_PROTOCOL_VERSION      0
 
 #define HWKEY_KDF_VERSION_BEST 0
+/*
+ * HWKEY_KDF_VERSION_1 is for single key derivation
+ */
 #define HWKEY_KDF_VERSION_1    1
 
 /**
@@ -34,6 +37,9 @@ enum hwkey_cmd {
 
 	HWKEY_GET_KEYSLOT  = (0 << HWKEY_REQ_SHIFT),
 	HWKEY_DERIVE       = (1 << HWKEY_REQ_SHIFT),
+	HWKEY_GENERATE_CRYPTO_CTX = (2 << HWKEY_REQ_SHIFT),
+	HWKEY_EXCHANGE_CRYPTO_CTX = (3 << HWKEY_REQ_SHIFT),
+	HWKEY_GET_SSEK = (4 << HWKEY_REQ_SHIFT),
 };
 
 /**
