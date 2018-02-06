@@ -17,7 +17,6 @@
 // TODO: move this file to a better location
 #pragma once
 
-#include <err.h>
 #include <stdbool.h>
 #include <stdio.h>
 

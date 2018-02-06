@@ -42,7 +42,7 @@
  * multiple times, with and without NDEBUG defined.
  */
 
-#include <compiler.h>
+#include <lk/compiler.h>
 
 #undef assert
 #undef _assert

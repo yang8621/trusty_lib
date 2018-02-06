@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <err.h>
+#include <uapi/err.h>
 #include <trusty_std.h>
 #include <stdio.h>
 

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <compiler.h>
+#include <lk/compiler.h>
 
 __BEGIN_CDECLS
 void __libc_fatal_no_abort(const char* format, ...) __PRINTFLIKE(1, 2);

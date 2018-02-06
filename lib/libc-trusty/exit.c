@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <compiler.h>
+#include <lk/compiler.h>
 #include <trusty_std.h>
 
 #include "atexit.h"

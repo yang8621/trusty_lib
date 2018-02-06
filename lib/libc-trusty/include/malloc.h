@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-/* Trusty Random number generator */
-
 #pragma once
 
 #include <lk/compiler.h>
+#include <stddef.h>
 
 __BEGIN_CDECLS
-
-int trusty_rng_secure_rand(uint8_t *data, size_t len);
-int trusty_rng_add_entropy(const uint8_t *data, size_t len);
-int trusty_rng_hw_rand(uint8_t *data, size_t len);
-
+void *malloc(size_t n) __MALLOC __WARN_UNUSED_RESULT;
+void *calloc(size_t n_elements, size_t element_size) __WARN_UNUSED_RESULT;
+void *realloc(void *p, size_t n) __WARN_UNUSED_RESULT;
+void free(void *p);
+void *memalign(size_t alignment, size_t n) __MALLOC __WARN_UNUSED_RESULT;
 __END_CDECLS
+

@@ -24,7 +24,7 @@
 #ifndef __TRUSTY_STD_H
 #define __TRUSTY_STD_H
 
-#include <compiler.h>
+#include <lk/compiler.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <sys/types.h>

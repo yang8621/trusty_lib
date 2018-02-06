@@ -28,7 +28,7 @@
 #ifndef LIBC_INIT_H
 #define LIBC_INIT_H
 
-#include <compiler.h>
+#include <lk/compiler.h>
 
 typedef struct {
   void (**preinit_array)(void);

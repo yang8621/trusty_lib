@@ -21,7 +21,7 @@
  */
 #include <openssl/aes.h>
 
-#include <err.h>
+#include <uapi/err.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>

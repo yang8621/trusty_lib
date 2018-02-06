@@ -25,7 +25,7 @@
  * SUCH DAMAGE.
  */
 
-#include <err.h>
+#include <uapi/err.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/types.h>

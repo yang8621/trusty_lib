@@ -26,7 +26,7 @@
  * SUCH DAMAGE.
  */
 
-#include <compiler.h>
+#include <lk/compiler.h>
 #include <stddef.h>
 #include <trusty_std.h>
 
