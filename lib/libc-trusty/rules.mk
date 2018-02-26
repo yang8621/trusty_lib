@@ -19,6 +19,9 @@ MODULE_SRCS := \
 
 include $(LOCAL_DIR)/arch/$(ARCH)/rules.mk
 
+# dlmalloc does arithmatic on null pointers to calculate padding.
+MODULE_COMPILEFLAGS += -Wno-null-pointer-arithmetic
+
 MODULE_DEPS := \
 	lib/libc \
 
