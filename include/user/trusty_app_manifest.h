@@ -65,7 +65,8 @@ enum trusty_app_mgmt_flags {
 
 /* manifest section attributes */
 #define TRUSTY_APP_MANIFEST_ATTRS \
-	__attribute((aligned(4))) __attribute((section(".trusty_app.manifest")))
+	const __attribute((aligned(4)))\
+		__attribute((section(".trusty_app.manifest")))
 
 #endif
 
