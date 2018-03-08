@@ -34,7 +34,6 @@
 #define __NR_munmap		0x9
 #define __NR_prepare_dma		0xa
 #define __NR_finish_dma		0xb
-#define __NR_get_device_info		0xa0
 #define __NR_port_create		0x10
 #define __NR_connect		0x11
 #define __NR_accept		0x12
@@ -62,7 +61,6 @@ long mmap (void* uaddr, uint32_t size, uint32_t flags, uint32_t handle);
 long munmap (void* uaddr, uint32_t size);
 long prepare_dma (void* uaddr, uint32_t size, uint32_t flags, void* pmem);
 long finish_dma (void* uaddr, uint32_t size, uint32_t flags);
-long get_device_info (trusty_device_info_t *info);
 long port_create (const char *path, uint num_recv_bufs, size_t recv_buf_size, uint32_t flags);
 long connect (const char *path, uint flags);
 long accept (uint32_t handle_id, uuid_t *peer_uuid);

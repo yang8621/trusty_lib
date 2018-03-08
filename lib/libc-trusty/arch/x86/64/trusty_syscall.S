@@ -147,14 +147,6 @@ FUNCTION(finish_dma)
     EPILOG
     ret
 
-FUNCTION(get_device_info)
-    PROLOG
-    movq $__NR_get_device_info, %rax
-    MOV_PARAMS
-    sysenter
-    EPILOG
-    ret
-
 FUNCTION(port_create)
     PROLOG
     movq $__NR_port_create, %rax
