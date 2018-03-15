@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2013, Google, Inc. All rights reserved
- * Copyright (c) 2012-2013, NVIDIA CORPORATION. All rights reserved
+ * Copyright (c) 2013 Google Inc. All rights reserved
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files
@@ -21,40 +20,19 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef __LIB_TRUSTY_APP_MANIFEST_H
-#define __LIB_TRUSTY_APP_MANIFEST_H
+
+#pragma once
 
 #include <sys/types.h>
+#include "trusty_apps_uuid.h"
 
-#include "trusty_uuid.h"
+typedef struct uuid
+{
+	uint32_t time_low;
+	uint16_t time_mid;
+	uint16_t time_hi_and_version;
+	uint8_t clock_seq_and_node[8];
+} uuid_t;
 
-/*
- * Layout of .trusty_app.manifest section in the trusted application is the
- * required UUID followed by an abitrary number of configuration options.
- */
-typedef struct trusty_app_manifest {
-	uuid_t uuid;
-	uint32_t config_options[];
-} trusty_app_manifest_t;
-
-enum {
-	TRUSTY_APP_CONFIG_KEY_MIN_STACK_SIZE	= 1,
-	TRUSTY_APP_CONFIG_KEY_MIN_HEAP_SIZE	= 2,
-	TRUSTY_APP_CONFIG_KEY_MAP_MEM		= 3,
-};
-
-#define TRUSTY_APP_CONFIG_MIN_STACK_SIZE(sz) \
-	TRUSTY_APP_CONFIG_KEY_MIN_STACK_SIZE, sz
-
-#define TRUSTY_APP_CONFIG_MIN_HEAP_SIZE(sz) \
-	TRUSTY_APP_CONFIG_KEY_MIN_HEAP_SIZE, sz
-
-#define TRUSTY_APP_CONFIG_MAP_MEM(id,off,sz) \
-	TRUSTY_APP_CONFIG_KEY_MAP_MEM, id, off, sz
-
-/* manifest section attributes */
-#define TRUSTY_APP_MANIFEST_ATTRS \
-	__attribute((aligned(4))) __attribute((section(".trusty_app.manifest")))
-
-#endif
+#define UUID_INITIAL_VALUE(uuid) {0, 0, 0, {0}}
 

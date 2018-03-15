@@ -24,14 +24,14 @@
 #ifndef __TRUSTY_STD_H
 #define __TRUSTY_STD_H
 
-#include <compiler.h>
+#include <lk/compiler.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdbool.h>
 #include <sys/types.h>
 
 #include "trusty_ipc.h"
 #include "trusty_uuid.h"
+#include <uapi/mm.h>
 #include "trusty_syscalls.h"
 
 __NO_RETURN void exit(int status);

@@ -17,12 +17,11 @@
 // TODO: move this file to a better location
 #pragma once
 
-#include <err.h>
 #include <stdbool.h>
 #include <stdio.h>
 
-static uint _tests_total  = 0; /* Number of conditions checked */
-static uint _tests_failed = 0; /* Number of conditions failed  */
+static unsigned int _tests_total  = 0; /* Number of conditions checked */
+static unsigned int _tests_failed = 0; /* Number of conditions failed  */
 
 #define TLOGI(fmt, ...) \
     fprintf(stderr, "%s: %d: " fmt, LOG_TAG, __LINE__,  ## __VA_ARGS__)
@@ -49,8 +48,8 @@ static uint _tests_failed = 0; /* Number of conditions failed  */
  */
 #define EXPECT_EQ(expected, actual, msg)                        \
 {                                                               \
-	typeof(actual) _e = expected;                           \
-	typeof(actual) _a = actual;                             \
+	__typeof__(actual) _e = expected;                       \
+	__typeof__(actual) _a = actual;                         \
 	_tests_total++;                                         \
 	if (_e != _a) {                                         \
 		TLOGI("%s: expected " #expected " (%d), "      \
@@ -63,8 +62,8 @@ static uint _tests_failed = 0; /* Number of conditions failed  */
 
 #define EXPECT_NE(expected, actual, msg)                        \
 {                                                               \
-	typeof(actual) _e = expected;                           \
-	typeof(actual) _a = actual;                             \
+	__typeof__(actual) _e = expected;                       \
+	__typeof__(actual) _a = actual;                         \
 	_tests_total++;                                         \
 	if (_e == _a) {                                         \
 		TLOGI("%s: expected not " #expected " (%d), "      \
@@ -77,8 +76,8 @@ static uint _tests_failed = 0; /* Number of conditions failed  */
 
 #define EXPECT_GT(expected, actual, msg)                        \
 {                                                               \
-	typeof(actual) _e = expected;                           \
-	typeof(actual) _a = actual;                             \
+	__typeof__(actual) _e = expected;                       \
+	__typeof__(actual) _a = actual;                         \
 	_tests_total++;                                         \
 	if (_e <= _a) {                                         \
 		TLOGI("%s: expected " #expected " (%d), "      \
@@ -91,7 +90,7 @@ static uint _tests_failed = 0; /* Number of conditions failed  */
 
 #define EXPECT_GE_ZERO(actual, msg)                             \
 {                                                               \
-	typeof(actual) _a = actual;                             \
+	__typeof__(actual) _a = actual;                         \
 	_tests_total++;                                         \
 	if (_a < 0) {                                           \
 		TLOGI("%s: expected >= 0 "                     \
@@ -104,7 +103,7 @@ static uint _tests_failed = 0; /* Number of conditions failed  */
 
 #define EXPECT_GT_ZERO(actual, msg)                             \
 {                                                               \
-	typeof(actual) _a = actual;                             \
+	__typeof__(actual) _a = actual;                         \
 	_tests_total++;                                         \
 	if (_a <= 0) {                                          \
 		TLOGI("%s: expected > 0 "                      \
@@ -113,4 +112,3 @@ static uint _tests_failed = 0; /* Number of conditions failed  */
 		_all_ok = false;                                \
 	}                                                       \
 }
-

@@ -65,16 +65,17 @@ typedef struct iovec {
 } iovec_t;
 
 typedef struct ipc_msg {
-	uint		num_iov;
+	uint32_t	num_iov;
 	iovec_t		*iov;
 
-	uint		num_handles;
+	uint32_t	num_handles;
 	handle_t	*handles;
 } ipc_msg_t;
 
 typedef struct ipc_msg_info {
 	size_t		len;
 	uint32_t	id;
+	uint32_t	num_handles;
 } ipc_msg_info_t;
 
 /*
@@ -91,6 +92,15 @@ enum {
 };
 
 /*
+ *  Values for cmd parameter of handle_set_ctrl call
+ */
+enum {
+	HSET_ADD	= 0x0, /* adds new handle to handle set */
+	HSET_DEL	= 0x1, /* deletes handle from handle set */
+	HSET_MOD	= 0x2, /* modifies handle attributes in handle set */
+};
+
+/*
  *  Is used by wait and wait_any calls to return information
  *  about event.
  */
@@ -99,5 +109,7 @@ typedef struct uevent {
 	uint32_t	event;   /* combination of IPC_HANDLE_POLL_XXX flags */
 	void		*cookie; /* cookie aasociated with handle */
 } uevent_t;
+
+#define UEVENT_INITIAL_VALUE(event) {0, 0, 0}
 
 #endif
