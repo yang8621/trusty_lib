@@ -139,15 +139,15 @@ int keymaster_get_auth_token_key(keymaster_session_t session,
 	}
 
 	if (inf.len <= sizeof(struct keymaster_message)) {
-		TLOGE("%s: invalid auth token len (%zu)\n", __func__, inf.len);
+		TLOGE("%s: invalid auth token len (%u)\n", __func__, inf.len);
 		put_msg(session, inf.id);
 		return ERR_NOT_FOUND;
 	}
 
-	size_t size = inf.len - sizeof(struct keymaster_message);
+	uint32_t size = inf.len - sizeof(struct keymaster_message);
 	uint8_t *key_buf = malloc(size);
 	if (key_buf == NULL) {
-		TLOGE("%s: out of memory (%zu)\n", __func__, inf.len);
+		TLOGE("%s: out of memory (%u)\n", __func__, inf.len);
 		put_msg(session, inf.id);
 		return ERR_NO_MEMORY;
 	}
@@ -158,16 +158,16 @@ int keymaster_get_auth_token_key(keymaster_session_t session,
 		goto err_bad_read;
 	}
 
-	size_t read_len = (size_t) rc;
+	uint32_t read_len = rc;
 	if (read_len != inf.len){
 		// data read in does not match message length
-		TLOGE("%s: invalid read length: (%zu != %zu)\n",
+		TLOGE("%s: invalid read length: (%u != %u)\n",
 		      __func__, read_len, inf.len);
 		rc = ERR_IO;
 		goto err_bad_read;
 	}
 
-	*size_p = size;
+	*size_p = (size_t)size;
 	*key_buf_p = key_buf;
 	return NO_ERROR;
 

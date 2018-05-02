@@ -144,8 +144,8 @@ static ssize_t get_response(storage_session_t session,
     }
 
     if ((size_t)rc != mi.len) {
-        TLOGE("%s: partial message read (%zd vs. %zd)\n",
-              __func__, (size_t)rc, mi.len);
+        TLOGE("%s: partial message read (%d vs. %d)\n",
+              __func__, rc, mi.len);
         return ERR_IO;
     }
 

@@ -89,7 +89,7 @@ static long send_req(hwkey_session_t session, struct hwkey_msg *msg, uint8_t *re
 		goto err_send_fail;
 	}
 
-	if(((size_t) rc) != sizeof(*msg) + req_buf_len) {
+	if (((uint32_t) rc) != sizeof(*msg) + req_buf_len) {
 		rc = ERR_IO;
 		goto err_send_fail;
 	}
@@ -108,14 +108,14 @@ static long send_req(hwkey_session_t session, struct hwkey_msg *msg, uint8_t *re
 	}
 
 	if (inf.len > sizeof(*msg) + *rsp_buf_len) {
-		TLOGE("%s: insufficient output buffer size (%zu > %zu)\n",
-		      __func__, inf.len - sizeof(*msg), (size_t)*rsp_buf_len);
+		TLOGE("%s: insufficient output buffer size (%lu > %u)\n",
+		      __func__, inf.len - sizeof(*msg), *rsp_buf_len);
 		rc = ERR_TOO_BIG;
 		goto err_get_fail;
 	}
 
 	if (inf.len < sizeof(*msg)) {
-		TLOGE("%s: short buffer (%zu)\n", __func__, inf.len);
+		TLOGE("%s: short buffer (%u)\n", __func__, inf.len);
 		rc = ERR_NOT_VALID;
 		goto err_get_fail;
 	}
@@ -143,10 +143,10 @@ static long send_req(hwkey_session_t session, struct hwkey_msg *msg, uint8_t *re
 		goto err_read_fail;
 	}
 
-	size_t read_len = (size_t) rc;
+	uint32_t read_len = rc;
 	if (read_len != inf.len) {
 		// data read in does not match message length
-		TLOGE("%s: invalid read length (%zu != %zu)\n",
+		TLOGE("%s: invalid read length (%u != %u)\n",
 		       __func__, read_len, inf.len);
 		rc = ERR_IO;
 		goto err_read_fail;
