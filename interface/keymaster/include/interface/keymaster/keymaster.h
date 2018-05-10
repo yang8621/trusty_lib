@@ -25,7 +25,8 @@
  */
 enum secure_keymaster_command {
 	KM_RESP_BIT            = 1,
-	KM_REQ_SHIFT           = 1,
+	KM_STOP_BIT            = 2,
+	KM_REQ_SHIFT           = 2,
 
 	KM_GET_AUTH_TOKEN_KEY  = (0 << KM_REQ_SHIFT),
 };

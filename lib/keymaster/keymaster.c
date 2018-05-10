@@ -98,7 +98,7 @@ static long read_response(keymaster_session_t session, uint32_t msg_id,
 	long rc = read_msg(session, msg_id, 0, &rx_msg);
 	put_msg(session, msg_id);
 
-	if (msg.cmd != (cmd | KM_RESP_BIT)) {
+	if ((cmd | KM_RESP_BIT) != (msg.cmd & ~(KM_STOP_BIT))) {
 		TLOGE("%s: invalid response (0x%x) for cmd (0x%x)\n",
 		      __func__, msg.cmd, cmd);
 		return ERR_NOT_VALID;
