@@ -88,9 +88,6 @@ typedef union hfs1 {
         uint32_t data;
 } hfs1_t;
 
-/* AttKB size is limited to 16KB */
-#define MAX_ATTKB_SIZE    (16*1024)
-
 typedef struct trusty_device_info{
     /* the size of the structure, used to sync up in different modules(tos loader, TA, LK kernel) */
     uint32_t        size;
@@ -107,15 +104,7 @@ typedef struct trusty_device_info{
 
     /* Concatenation of mmc product name with a string representation of PSN */
     char serial[MMC_PROD_NAME_WITH_PSN_LEN];
-
-    /* attestation keybox info */
-    uint32_t     attkb_size;
-    uint8_t      attkb[0];
 }__attribute__((packed)) trusty_device_info_t;
 
-#define ATTKB_INFO_OFFSET    __offsetof(struct trusty_device_info, attkb_size)
-
-#define   GET_SEED         (1<<0)
-#define   GET_ATTKB        (1<<1)
 #endif
 
