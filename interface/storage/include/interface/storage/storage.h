@@ -56,6 +56,10 @@ enum storage_cmd {
 
 	STORAGE_FILE_MOVE      = 10 << STORAGE_REQ_SHIFT,
 	STORAGE_FILE_LIST      = 11 << STORAGE_REQ_SHIFT,
+
+	/* attestation keybox */
+	STORAGE_GET_ATTKB_SIZE = 30 << STORAGE_REQ_SHIFT,
+	STORAGE_READ_ATTKB     = 31 << STORAGE_REQ_SHIFT,
 };
 
 /**

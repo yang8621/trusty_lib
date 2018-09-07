@@ -531,6 +531,54 @@ int storage_get_file_size(file_handle_t fh, storage_off_t *size_p)
     return NO_ERROR;
 }
 
+ssize_t storage_get_attkb_size(storage_session_t session, size_t *size)
+{
+    struct storage_msg msg = { .cmd = STORAGE_GET_ATTKB_SIZE };
+    struct iovec tx[1] = {{&msg, sizeof(msg)}};
+    size_t size_rsp;
+    struct iovec rx[2] = {{&msg, sizeof(msg)}, {&size_rsp, sizeof(size_rsp)}};
+    ssize_t rc = send_reqv(session, tx, 1, rx, 2);
+
+    *size = size_rsp;
+    return check_response(&msg, rc);
+}
+
+ssize_t storage_read_attkb(storage_session_t session, void *buf, size_t size)
+{
+    uint8_t *ptr = buf;
+    struct storage_msg msg = { .cmd = STORAGE_READ_ATTKB };
+    struct iovec tx[1] = {{&msg, sizeof(msg)}};
+    struct iovec rx[2] = {{&msg, sizeof(msg)}, {ptr, size}};
+    ssize_t bytes_read = 0;
+    bool first_read = true;
+    ssize_t rc;
+
+    while (size) {
+        if (first_read) {
+            rc = send_reqv(session, tx, 1, rx, 2);
+            first_read = false;
+        } else {
+            rx[1].base = ptr;
+            rx[1].len = size;
+            rc = get_response(session, rx, 2);
+        }
+
+        rc = check_response(&msg, rc);
+        if (rc < 0) {
+            TLOGI("%s: failed (%d) to check response\n", __func__, (int)rc);
+            return rc;
+        }
+
+        if (rc == 0)
+            break;
+        ptr += rc;
+        bytes_read += rc;
+        size -= rc;
+    }
+
+    return bytes_read;
+}
+
 int storage_end_transaction(storage_session_t session, bool complete)
 {
     struct storage_msg msg = {
