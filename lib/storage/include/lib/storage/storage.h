@@ -206,9 +206,9 @@ int storage_set_file_size(file_handle_t handle, storage_off_t file_size,
 int storage_get_file_size(file_handle_t handle, storage_off_t *size);
 
 /**
- * storage_get_attkb_size() - Gets the size of attestation keybox.
+ * storage_get_attkb_size() - Get the size of attestation keybox.
  * @session: the storage_session_t returned from a call to storage_open_session
- * @size: poiter to the size of attestation keybox data
+ * @size: pointer to the size of attestation keybox data
  *
  * Return: NO_ERROR on success, negative error code on failure.
  */
